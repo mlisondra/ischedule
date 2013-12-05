@@ -2,7 +2,6 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>About iSchedule247.com</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 		<meta http-equiv="description" name="description" content="">
 		<meta http-equiv="keywords" name="keywords" content="">
