@@ -1,0 +1,56 @@
+.sign_up_error {font-size:10px;color:red;margin-left:10px;text-align:left;display:none;}
+.modal {font-size:12px;display:none;}
+#form_notification{font-size:10px;color:red;display:none;font-weight:bold;}
+#notification{font-size:14px;color:red;display:none;font-weight:bold;}
+.form_field_header{font-weight:bold;}
+
+#contacts_list{
+	margin: 0px 0px 0px 2px;
+}
+
+#contacts_list li{
+	cursor: pointer;
+	border-top: 1px solid #6287A7;
+	padding-left:5px;
+}
+
+#category_list li{
+	border-top: 1px solid #6287A7;
+	padding-left:10px;
+}
+#category_list li a:first-child{
+	padding-right: 5px;
+}
+
+#new_calendar{
+	text-align:right;
+}
+
+#calendar_months ul{
+	background-color:#FFFFFF;
+}
+
+textarea{
+	resize:none;
+}
+
+#add_category_form input[type='text']{
+	width:250px;
+}
+
+#add_category_form textarea{
+	width: 250px;
+}
+
+.delete_button{
+	background-color:red;
+	border:none;
+	height:30px;
+	width:150px;
+	color:#fff;
+	cursor:pointer;
+}
+/* Just to allow some kind of highlight when hovering over the days on calendar
+#mycalendar td:hover{
+	background-color:red;
+}*/

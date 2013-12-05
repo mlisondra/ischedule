@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title></title>
+		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+		<meta http-equiv="description" name="description" content="">
+		<meta http-equiv="keywords" name="keywords" content="">
+		<meta name="robots" content="index,follow">
+		<meta name="revisit-after" content="10 days">
+		<meta http-equiv="Content-Style-Type" content="text/css" />
+		<link rel="stylesheet" type="text/css" href="css/styles.css" />
+	</head>
+<body>
+	<div id="container"> <!--Start Container-->
+		<div id="header"> <!--Start Header-->
+			<h1>Welcome Ken</h1>
+			<div id="nav">
+				<a href="##">Account Settings</a>
+				<a href="##">Upgrade!</a>
+				<a href="##">Logout</a> 
+			</div>
+		</div> <!--End Header-->
+		<div id="content"> <!--Start Content-->
+			<div id="left_col"> <!--Start Left Col-->
+				<div class="mod">
+					<div class="mod_top"></div>
+					<h3>Legend</h3>
+					<form>
+					<ul>
+						<li class="blue"><input type="checkbox">Storm Soccer</li>
+						<li class="yellow"><input type="checkbox">Family</li>
+						<li class="pink"><input type="checkbox">School Carpool</li>
+						<li class="purple"><input type="checkbox">Rocket Baseball</li>
+						<li class="green"><input type="checkbox">Snacks</li>
+					</ul>
+					</form>
+					<a href="##" id="select_all">Select All</a>
+					<a href="##" id="deselect_all">Deselect All</a>
+				</div>
+			</div> <!--End Left Col-->
+			<div id="center_col"> <!--Start Center Col-->
+				<div id="calendar">
+					<div id="calendar_top"></div>
+						<ul>
+							<li class="selected">Apr</li>
+							<li>May</li>
+							<li>Jun</li>
+							<li>Jul</li>
+							<li>Aug</li>
+							<li>Sep</li>
+							<li>Oct</li>
+							<li>Nov</li>
+							<li>Dec</li>
+							<li>Jan</li>
+							<li>Feb</li>
+							<li>Mar</li>
+						</ul>
+						<div class="clear"></div>
+						<h2>April 2010</h2>
+						<table cellpadding="5" cellspacing="0" width="650">
+							<tr height="30" align="center" id="days_header">
+								<td>S</td>
+								<td>M</td>
+								<td>T</td>
+								<td>W</td>
+								<td>T</td>
+								<td>F</td>
+								<td>S</td>
+							</tr>
+							<tr height="60" valign="top">
+								<td>28</td>
+								<td>29</td>
+								<td>30</td>
+								<td>31</td>
+								<td>1</td>
+								<td>2</td>
+								<td>3</td>
+							</tr>
+							<tr height="60" valign="top">
+								<td>4</td>
+								<td>5</td>
+								<td>6</td>
+								<td>7</td>
+								<td>8</td>
+								<td>9</td>
+								<td>10</td>
+							</tr>
+							<tr height="60" valign="top">
+								<td>11</td>
+								<td>12</td>
+								<td>13</td>
+								<td>14</td>
+								<td>15</td>
+								<td>16</td>
+								<td>17</td>
+							</tr>
+							<tr height="60" valign="top">
+								<td>18</td>
+								<td>19</td>
+								<td>20</td>
+								<td>21</td>
+								<td>22</td>
+								<td>23</td>
+								<td>24</td>
+							</tr>
+							<tr height="60" valign="top">
+								<td>25</td>
+								<td>26</td>
+								<td>27</td>
+								<td>28</td>
+								<td>29</td>
+								<td>30</td>
+								<td>1</td>
+							</tr>
+						</table>
+					<div id="calendar_bottom"></div>
+				</div>
+			</div> <!--End Center Col-->
+			<div id="right_col"> <!--Start Right Col-->
+				<div class="mod">
+					<div class="mod_top"></div>
+						<h3>Contacts</h3>
+						<div id="contacts">
+							<form>
+							<ul>
+								<li class="blue"><input type="checkbox">Billy</li>
+								<li><input type="checkbox">Joe</li>
+								<li><input type="checkbox">Jim</li>
+								<li><input type="checkbox">Bob</li>
+								<li><input type="checkbox">Marry</li>
+								<li><input type="checkbox">Jane</li>
+								<li><input type="checkbox">Blow</li>
+								<li><input type="checkbox">Job</li>
+								<li><input type="checkbox">Harry</li>
+							</ul>
+							</form>
+						</div>
+					<a href="##" id="group"></a>
+					<a href="##" id="add_user"></a>
+					<a href="##" id="email"></a>
+				<div class="clear"></div>
+				</div>
+				<div class="mod">
+					<div class="mod_top"></div>
+						<h3>Manual Message Launch</h3>
+						<div id="message">
+							<form>
+							<ul>
+								<li class="blue"><input type="checkbox">Storm Soccer</li>
+								<li><input type="checkbox">Family</li>
+								<li><input type="checkbox">School Carpool</li>
+								<li><input type="checkbox">Rocket Baseball</li>
+								<li><input type="checkbox">Snacks</li>
+								<li><input type="checkbox">Family</li>
+								<li><input type="checkbox">School Carpool</li>
+								<li><input type="checkbox">Rocket Baseball</li>
+								<li><input type="checkbox">Snacks</li>
+							</ul>
+							</form>
+						</div>
+					<a href="##" id="group"></a>
+					<a href="##" id="add_user"></a>
+					<a href="##" id="email"></a>
+				</div>
+			</div> <!--End Right Col-->
+		<div class="clear"></div>
+		</div> <!--End Content-->
+		<?php include('../includes/footer_alt.php'); ?>
+	</div> <!--End Container-->
+</body>
+</html>

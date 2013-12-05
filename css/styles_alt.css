@@ -1,0 +1,373 @@
+body  {
+	font: 1em Arial, Helvetica, sans-serif;
+	margin: 0;
+	padding: 0;
+	color: #000;
+	background: url(../images/top_tile.gif) top repeat-x #fff;
+}
+
+.clear {clear: both;}
+
+a:focus {outline-style: none;}
+a img {border: none;}
+
+a:link{color: #4f668d; text-decoration: none;}
+a:visited{color: #4f668d; text-decoration: none;}
+a:hover{color: #4f668d; text-decoration: underline;}
+
+/*===================== STRUCTURE =====================*/
+
+#container {
+	width: 1000px;
+	margin: 0 auto;
+	font-size: .8em;
+}
+
+#content {
+	background: #909090;
+	padding: 10px 0;
+}
+
+#login_content {
+	background: #909090;
+}
+
+/*===================== HEADER =====================*/
+
+#header {
+	height: 50px;
+}
+
+#header h1 {
+	margin: 10px 0 0 20px;
+	float: left;
+	font-style: italic;
+	color: #6C6C6C;
+}
+
+#nav {
+	float: right;
+	margin-top: 20px;
+}
+
+#nav a {
+	margin-right: 30px;
+	font-size: 1.2em;
+}
+
+/*===================== LEFT COLUMN =====================*/
+
+#left_col {
+	width: 163px;
+	float: left;
+	margin-left: 5px;
+}
+
+.mod {
+	background: url(../images/mod_tile.gif) center repeat-y;
+	margin-bottom: 10px;
+}
+
+.mod_top {
+	height: 14px;
+	background: url(../images/mod_top.gif) center top no-repeat;
+}
+
+.mod_bottom {
+	height: 14px;
+	background: url(../images/mod_bottom.gif) center top no-repeat;
+}
+
+a.button, #deselect_all {
+	display: block;
+	width: 163px;
+	height: 40px;
+	background: url(../images/select.gif) left top no-repeat;
+	color: #fff;
+	text-align: center;
+	line-height: 40px;
+}
+
+a.button:hover {
+	background-position: right top;
+	text-decoration: none;
+}
+
+#deselect_all {
+	height: 43px;
+	background-position: left bottom;
+}
+
+#deselect_all:hover {
+	background-position: right bottom;
+	text-decoration: none;
+}
+
+.mod h3 {
+	margin: 0 0 10px 15px;
+	font-size: 1.2em;
+}
+
+.mod ul {
+	margin: 0 4px 0 4px;
+	padding: 0;
+	list-style: none;
+}
+
+.mod ul li {
+	height: 25px;
+	color: #6287a7;
+	line-height: 25px;
+	font-weight: bold;
+}
+
+.mod input {
+	width: 18px;
+	height: 18px;
+	float: left;
+	margin-right: 10px;
+}
+
+.blue {
+	border-top: 1px solid #6287a7;
+	background: #adc9e1;
+}
+
+.yellow {
+	border-top: 1px solid #949472;
+	background: #e1e1ad;
+}
+
+.pink {
+	border-top: 1px solid #b98e94;
+	background: #e1adb4;
+}
+
+.purple {
+	border-top: 1px solid #b19bd1;
+	background: #b8ade1;
+}
+
+.green {
+	border-top: 1px solid #81b096;
+	background: #a8e6c4;
+}
+
+/*===================== CENTER COLUMN =====================*/
+
+#center_col {
+	width: 658px;
+	float: left;
+	margin-left: 3px;
+}
+
+#calendar {
+	background: url(../images/calendar_tile.gif) center repeat-y;
+}
+
+#calendar_top {
+	height: 14px;
+	background: url(../images/calendar_top.gif) center top no-repeat;
+}
+
+#calendar_bottom {
+	height: 7px;
+	background: url(../images/calendar_bottom.gif) center top no-repeat;
+}
+
+#calendar ul {
+	margin: 0 0 0 40px;
+	padding: 0;
+	list-style: none;
+}
+
+#calendar ul li {
+	width: 38px;
+	height: 17px;
+	float: left;
+	margin-right: 10px;
+	font-weight: bold;
+	font-size: 1.1em;
+	text-align: center;
+}
+
+#calendar ul li.selected {
+	color: #fff;
+	background: url(../images/month_selected.gif) center top no-repeat;
+}
+
+#calendar h2 {
+	font-size: 1.9em;
+	text-align: center;
+}
+
+#calendar table {
+	margin-left: 4px;
+	border: 1px solid #dedede;
+	font-size: 1.4em;
+	font-weight: bold;
+	text-align: right;
+}
+
+#calendar table td {
+	border: 1px solid #dedede;
+}
+
+#calendar table #days_header {
+	color: #7a7a7a;
+}
+
+#calendar table #days_header td {
+	border: none;
+}
+
+/*===================== EXTRA PAGES =====================*/
+
+#text {
+	padding: 0 25px;
+}
+
+#login_left {
+	width: 380px;
+	float: left;
+	padding-left: 20px;
+}
+
+#login_content h2 {
+	color: #fff;
+}
+
+#login_left label {
+	height: 20px;
+	font-weight: bold;
+}
+
+#login_left input {
+	width: 200px;
+	padding: 5px;
+	margin: 5px 0 15px 0;
+	border: 1px solid #aaa;
+	color: #4a4949;
+	font-weight: bold;
+}
+
+#login_left #submit {
+	width: auto;
+	border: none;
+	cursor: pointer;
+}
+
+#login_right {
+	width: 565px;
+	height: 232px;
+	float: right;
+	margin-right: 20px;
+	background: url(../images/login.jpg) center top no-repeat;
+}
+
+#sign_up_button {
+	display: block;
+	width: 222px;
+	height: 44px;
+	margin: 180px 0 0 334px;
+	background: url(../images/sign_up.png) center top no-repeat;
+}
+
+#sign_up_button:hover {
+	background-position: center bottom;
+}
+
+#login1 {
+	float: left;
+    padding-left: 20px;
+    width: 420px;
+}
+
+#login2 {
+	width: 480px;
+	float: right;
+	margin-right: 20px;
+}
+
+#login1, #login2 {
+	margin-bottom: 30px;
+}
+
+/*===================== RIGHT COLUMN =====================*/
+
+#right_col {
+	width: 163px;
+	float: right;
+	margin-right: 5px;
+}
+
+#contacts, #message {
+	height: 260px;
+	margin-right: 4px;
+	overflow-y: scroll;
+}
+
+#message {
+	height: 100px;
+}
+
+#group, #add_user, #email {
+	display: block;
+	height: 36px;
+	float: left;
+	background: url(../images/contact_bottom.gif) -163px top no-repeat;
+}
+
+#group {
+	width: 62px;
+}
+
+#group:hover {background-position: left top;}
+
+#add_user {
+	width: 49px;
+	background-position: -225px top;
+}
+
+#add_user:hover {background-position: -62px top;}
+
+#email {
+	width: 52px;
+	background-position: right top;
+}
+
+#email:hover {background-position: -111px top;}
+
+/*===================== FOOTER =====================*/
+
+#footer {
+	margin: 0 0 30px 0;
+	padding-right: 20px;
+	background: #ccc;
+	height: 30px;
+	line-height: 30px;
+	text-align: right;
+}
+
+#footer a {
+	margin-left: 20px;
+	color: #6c6c6c;
+	font-weight: bold;
+}
+
+#footer span {
+	float: left;
+	padding-left: 20px;
+	font-weight: bold;
+	font-style: italic;
+	font-size: 1.2em;
+}
+	
+	
+	
+	
+	
+	
+	
+	
+	
