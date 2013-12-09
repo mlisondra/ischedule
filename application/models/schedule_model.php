@@ -5,6 +5,7 @@ class Schedule_model extends CI_Model {
 	protected $accounts = 'users';
 	protected $calendars = 'user_categories';
         protected $events = 'user_events';
+
 	
 	/**
 	* add_calendar
@@ -43,6 +44,16 @@ class Schedule_model extends CI_Model {
 		//print __FUNCTION__; // returns function name only
 	}
 
+	/**
+	* delete_calendar
+	* Delete Calendar using given id
+	*/
+	public function delete_calendar($id){
+            $this->delete_calendar_events($id); // Delete events associated with Calendar
+            $this->db->delete($this->calendars, array("id"=>$id));
+            return $this->db->affected_rows();
+	}
+        
         /**
          * check_calendar_exists
          * Check if given calendar name exists for given user id
@@ -117,15 +128,6 @@ class Schedule_model extends CI_Model {
 		}
 	}
 	
-	/**
-	* delete_calendar
-	* Delete Calendar using given id
-	*/
-	public function delete_calendar($id){
-            $this->delete_calendar_events($id); // Delete events associated with Calendar
-            $this->db->delete($this->calendars, array("id"=>$id));
-            return $this->db->affected_rows();
-	}
         
         /*
          * Delete calendar events associated with given calendar id
@@ -135,7 +137,42 @@ class Schedule_model extends CI_Model {
             $this->db->delete($this->events, array("category"=>$id));
             return $this->db->affected_rows();            
         }
-	
+
+	/**
+	* get_user_events_date_range
+	* @param array $args: int user, int $start, int $end
+	* @return mixed array $results on Success; 0 on Failure or 0 records
+	* Retrieves events for given user id within the datetime range of $start and $end
+	*/
+	public function get_user_events_date_range($args = 0){
+		extract($args);
+		/*$sql = "SELECT `events`.*,`cat`.`color`,`cat`.`name` AS 'category_name' FROM `".$this->events."` `events` 
+				LEFT JOIN `user_categories` `cat`
+				ON `events`.category = `cat`.id				
+				WHERE `events`.`user`='$user' AND `events`.`begin_date_time`>='$start' AND `end_date_time`<='$end'";
+                 *
+                 */
+                $this->db->select('e.*, cat.color, cat.name as category_name');
+                $this->db->from('user_events e');
+                $this->db->join('user_categories cat','e.category = cat.id');
+                $query = $this->db->get();
+                print $this->db->last_query();
+                /*$result = mysql_query($sql);
+		if($result){
+			if(mysql_num_rows($result) > 0){
+				while($record = mysql_fetch_array($result)){
+					$results[] = $record;
+				}
+				return $results;
+			}else{
+				return 0;
+			}
+		}else{
+			return 0;
+		}
+                 
+                 */
+	}        
 }
 
 

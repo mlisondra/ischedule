@@ -77,17 +77,23 @@ class Schedule extends CI_Controller {
 		if($this->input->is_ajax_request()){
 			$_POST['user'] = $this->session->userdata('id'); // Must be a better way to do this
 			unset($_POST['action']);
+                        $response = "";
+                        $message = "";
 			//$result = $this->schedule_model->add_calendar($this->input->post());
 			//print_r($result);
 			$check = $this->schedule_model->check_calendar_exists($this->input->post('name'),$this->input->post('user'));
 			if($this->schedule_model->check_calendar_exists($this->input->post('name'),$this->input->post('user')) === false){
                             if($this->schedule_model->add_calendar($this->input->post())){
-                                    print 1;
+                                    $status = 1;
                             }else{
-                                    print 0;
+                                    $status = 0;
+                                    $message = "Could not add Calendar.";
                             }                            
+                        }else{
+                            $status = 0;
+                            $message = "Calendar name taken";
                         }
-
+                        print json_encode(array("status"=>$status,"message"=>$message));
 		}
 
 	}
@@ -112,10 +118,18 @@ class Schedule extends CI_Controller {
 	
 	}
 	
-	public function get_user_events(){
-	
-	}
-	
+        /**
+         * Retrieve data for the calendar
+         * Uses the currently logged in user's id
+         */
+        public function get_events(){
+            $this->load->model('schedule_model');
+            $this->schedule_model->get_user_events_date_range();
+            //print json_encode(array("day"=>"what","myid"=>$this->session->userdata('id')));
+            // Get the events associated with logged in user
+            // within the context of the given month given
+        }
+        
 	public function get_contacts(){
 		$this->load->model('contacts_model');
 		$contacts = $this->contacts_model->get_contacts($this->session->userdata('id'));
