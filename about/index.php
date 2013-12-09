@@ -17,7 +17,7 @@
 			<div id="left_col"> <!--Start Left Col-->
 				<div class="mod" style="display:none;"></div>
 				
-				<div class="mod" style="display;none;"></div>
+				<div class="mod" style="display:none;"></div>
 				
 			</div> <!--End Left Col-->
 			<div id="center_col"> <!--Start Center Col-->
@@ -32,7 +32,7 @@
 				
 			</div> <!--End Center Col-->
 			<div id="right_col"> <!--Start Right Col-->
-				<div class="mod" style="display;none;"></div>
+				<div class="mod" style="display:none;"></div>
 				
 			</div> <!--End Right Col-->
 		<div class="clear"></div>
