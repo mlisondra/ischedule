@@ -331,6 +331,7 @@ function update_category_list_modal(){
 	);	
 }
 
+// on load
 $(document).ready(function(){
 	/* Removed as it appears not to be production code
 	$("#add_contact_button").click(function(){
