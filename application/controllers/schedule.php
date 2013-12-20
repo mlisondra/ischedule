@@ -79,8 +79,6 @@ class Schedule extends CI_Controller {
 			unset($_POST['action']);
                         $response = "";
                         $message = "";
-			//$result = $this->schedule_model->add_calendar($this->input->post());
-			//print_r($result);
 			$check = $this->schedule_model->check_calendar_exists($this->input->post('name'),$this->input->post('user'));
 			if($this->schedule_model->check_calendar_exists($this->input->post('name'),$this->input->post('user')) === false){
                             if($this->schedule_model->add_calendar($this->input->post())){
@@ -124,7 +122,15 @@ class Schedule extends CI_Controller {
          */
         public function get_events(){
             $this->load->model('schedule_model');
-            $this->schedule_model->get_user_events_date_range();
+            $info = $this->schedule_model->get_user_events_date_range($this->input->get());
+            foreach($info as $item){
+                $item->start = $item->begin_date_time;
+            }
+            if($info != 0){
+                print json_encode($info);
+            }
+            //print_r($this->input->get(),true);
+            //print json_encode(array("status"=>"hi there"));
             //print json_encode(array("day"=>"what","myid"=>$this->session->userdata('id')));
             // Get the events associated with logged in user
             // within the context of the given month given
