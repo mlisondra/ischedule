@@ -390,17 +390,15 @@ function validate_add_category(){
 			type:"POST",
 			async:false,
 			success:function(data){
-				post_result = data;
-				if(post_result == 1){
-					//$("#add_category_form").remove();
-					//$("#modal_container").html("Calendar Added.");
-					//reset_modal_buttons(); //reset buttons
-					get_categories(); // refresh list
+				if(data.status == 1){
+					get_categories(); // refressh list
                                         $('#modal_container').dialog('close');
 				}else{
-					return false;
+                                        $('#form_notification').html(data.message);
+                                        $('#form_notification').show();
 				}				
-			}
+			},
+                        dataType: "json"
 		});
 	}	
 }
