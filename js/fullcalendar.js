@@ -142,7 +142,7 @@ $.fn.fullCalendar = function(options) {
 	
 	
 	// would like to have this logic in EventManager, but needs to happen before options are recursively extended
-	var eventSources = options.eventSources || [];
+	var eventSources = options.eventSources || []; //console.log(eventSources);
 	delete options.eventSources;
 	if (options.events) {
 		eventSources.push(options.events);
@@ -674,7 +674,7 @@ function Calendar(element, options, eventSources) {
 
 function Header(calendar, options) {
 	var t = this;
-	
+	//console.log(t);
 	
 	// exports
 	t.render = render;
