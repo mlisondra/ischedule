@@ -323,7 +323,7 @@ a.button:hover {
 
 .static_content_container {padding:0 15px 15px 15px; font-size:1.1em; line-height: 1.4em;}
 /*.static_content_container p {width:95%;}*/
-.color_list {float:left;width: 10px;height:13px;margin: 5px; 2px 0 0;}
+.color_list {float:left;width: 10px;height:13px;margin: 5px 2px 0 0;}
 .color_list ul {margin:0px;}
 .color_list ul li {margin-bottom:2px;width:8px;;height:2px;}
 #signup_container {
