@@ -23,19 +23,6 @@ if($_SESSION['user']['logged_in'] != 'yes'){
 		<link type="text/css" href="../css/jquery-ui-1.8.4.custom.css" rel="stylesheet" />
 		<link type="text/css" href="../css/jquery-ui-timepicker.css" rel="stylesheet" />
 		<link type="text/css" href="../css/fullcalendar.css" rel="stylesheet" />
-		
-		<script type="text/javascript" src="../js/jquery-142.js"></script>
-		<script type="text/javascript" src="../js/jquery-ui-1.8.10.custom.min.js"></script>
-		<script type="text/javascript" src="../js/validate.js"></script>
-		<!--<script type="text/javascript" src="../js/general.js"></script>-->
-		<script type="text/javascript" src="../js/schedule.js"></script>
-		<script type="text/javascript" src="../js/fullcalendar.js"></script>
-		<script type="text/javascript" src="../js/jquery.ui.datepicker.js"></script>
-		<script type="text/javascript" src="../js/jquery.ui.timepicker-0.0.6.js"></script>
-		<script type="text/javascript" src="../js/jquery.jqEasyCharCounter.min.js"></script>
-		<script type="text/javascript" src="../js/init_calendar.js"></script>
-		<script type="text/javascript" src="../js/jquery.miniColors.js"></script>
-
 
 	</head>
 <body>
@@ -120,5 +107,16 @@ if($_SESSION['user']['logged_in'] != 'yes'){
 		<a href="###" class="btn" id="yes">Yes</a>&nbsp;&nbsp;<a href="###" class="btn" id="no">No</a>
 		<input type="hidden" name="obj_id" id="obj_id" value="">
 	</div>
+        
+<script type="text/javascript" src="../js/jquery-142.js"></script>
+<script type="text/javascript" src="../js/jquery-ui-1.8.10.custom.min.js"></script>
+<script type="text/javascript" src="../js/validate.js"></script>
+<script type="text/javascript" src="../js/schedule.js"></script>
+<script type="text/javascript" src="../js/fullcalendar.js"></script>
+<script type="text/javascript" src="../js/jquery.ui.datepicker.js"></script>
+<script type="text/javascript" src="../js/jquery.ui.timepicker-0.0.6.js"></script>
+<script type="text/javascript" src="../js/jquery.jqEasyCharCounter.min.js"></script>
+<script type="text/javascript" src="../js/init_calendar.js"></script>
+<script type="text/javascript" src="../js/jquery.miniColors.js"></script>        
 </body>
 </html>
