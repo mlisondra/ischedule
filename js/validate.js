@@ -574,7 +574,6 @@ function validate_add_event(){
                                     $("#add_event_form").remove();
                                     $("#modal_container").html("Event Added");
                                     $("#modal_container").dialog("close");
-                                    //get_user_events();
                                     get_categories();
                                     refresh_calendar();                        
                     }
@@ -643,8 +642,7 @@ function validate_edit_event(){
 		if(post_result == 1){
 			$("#edit_event_form").remove();
 			$("#modal_container").html("Event Updated");
-			reset_modal_buttons(); //reset buttons
-			//get_user_events();			
+			reset_modal_buttons(); //reset buttons		
 			get_categories();
 			refresh_calendar();
 		}else{
