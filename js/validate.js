@@ -525,6 +525,7 @@ function validate_my_account(){
 
 /**
 * validate_add_event
+* Validate Adding of an Event
 */
 function validate_add_event(){
 	var num_errors = 0;
@@ -566,28 +567,23 @@ function validate_add_event(){
 		num_errors++;
 	}	
 	if(num_errors == 0){
+            
 		var post = $('#add_event_form').serialize();
-		var post_result = "";
-		$.ajax({url:'process.php',data:post,type:"POST",async:false,
-			success:function(data){
-				post_result = data;
-			}
-		});
-		if(post_result == 1){
-			$("#add_event_form").remove();
-			$("#modal_container").html("Event Added");
-			//reset_modal_buttons(); //reset buttons
-			$("#modal_container").dialog("close");
-			get_user_events();
-			get_categories();
-			refresh_calendar();
-			
-		}else{
-			return false;
-		}
+                $.post("/schedule/add_event",post,function(data){
+                    if(data.status == "ok"){
+                                    $("#add_event_form").remove();
+                                    $("#modal_container").html("Event Added");
+                                    $("#modal_container").dialog("close");
+                                    //get_user_events();
+                                    get_categories();
+                                    refresh_calendar();                        
+                    }
+                },"json");
+                
 	}else{
 		$("#form_notification").html(error_message);
 		$("#form_notification").show();	
+                //return false;
 	}
 }
 
@@ -648,7 +644,7 @@ function validate_edit_event(){
 			$("#edit_event_form").remove();
 			$("#modal_container").html("Event Updated");
 			reset_modal_buttons(); //reset buttons
-			get_user_events();			
+			//get_user_events();			
 			get_categories();
 			refresh_calendar();
 		}else{
@@ -710,20 +706,20 @@ function validate_delete_event(){
 	clear_modal_form_notification();
 	var n = $("input:checkbox:checked").length;
 	if(n > 0){
-		var post = $("#manage_events").serialize();
-		$.post("process.php",post,
-			function(data){
-				if(data == 1){
-					$("#modal_container").html("Selected Events have been deleted.");
-					reset_modal_buttons();
-					get_user_events(); //update list
-					get_categories();
-					refresh_calendar();
-				}else{
-					$("#modal_container").html("Events could not be deleted. Try again.");
-				}
-			}
-		);	
+            var post = $("#manage_events").serialize();
+            $.post("process.php",post,
+                    function(data){
+                            if(data == 1){
+                                    $("#modal_container").html("Selected Events have been deleted.");
+                                    reset_modal_buttons();
+                                    //get_user_events(); // Update list under each Calendar
+                                    get_categories();
+                                    refresh_calendar();
+                            }else{
+                                    $("#modal_container").html("Events could not be deleted. Try again.");
+                            }
+                    }
+            );	
 	}else{
 		$("#form_notification").html("Select at least one Event");
 		$("#form_notification").show();
