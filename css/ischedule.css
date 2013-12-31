@@ -2,7 +2,7 @@
 .modal {font-size:12px;display:none;}
 #form_notification{font-size:10px;color:red;display:none;font-weight:bold;}
 #notification{font-size:14px;color:red;display:none;font-weight:bold;}
-.form_field_header{font-weight:bold;}
+span.form_field_header {font-weight:bold;}
 
 #contacts_list{
 	margin: 0px 0px 0px 2px;
@@ -32,6 +32,8 @@
 
 textarea{
 	resize:none;
+        width:250px;
+        height:50px;
 }
 
 #add_category_form input[type='text']{
@@ -49,6 +51,11 @@ textarea{
 	width:150px;
 	color:#fff;
 	cursor:pointer;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0px;
 }
 /* Just to allow some kind of highlight when hovering over the days on calendar
 #mycalendar td:hover{
