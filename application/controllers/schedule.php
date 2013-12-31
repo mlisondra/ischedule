@@ -5,6 +5,7 @@ class Schedule extends CI_Controller {
 	public function __construct(){
 		parent::__construct();
 		$this->load->library('session');
+                $this->load->model('schedule_model');
 	}
 	
 	public function index(){
@@ -105,7 +106,12 @@ class Schedule extends CI_Controller {
 	}
 	
 	public function add_event(){
-	
+            $_POST['user'] = $this->session->userdata('id'); // Must be a better way to do this
+            if($this->schedule_model->add_event($this->input->post()) != false){
+                print json_encode(array("status"=>"ok"));
+            }else{
+                print json_encode(array("status"=>"fail"));
+            }
 	}
 	
 	public function delete_event(){
@@ -129,11 +135,6 @@ class Schedule extends CI_Controller {
             if($info != 0){
                 print json_encode($info);
             }
-            //print_r($this->input->get(),true);
-            //print json_encode(array("status"=>"hi there"));
-            //print json_encode(array("day"=>"what","myid"=>$this->session->userdata('id')));
-            // Get the events associated with logged in user
-            // within the context of the given month given
         }
         
 	public function get_contacts(){
@@ -155,17 +156,66 @@ class Schedule extends CI_Controller {
 		$modal_type = $this->input->post('modal_type');
 		$obj_id = $this->input->post('obj_id');
 		$view = '/templates/' . $modal_type;
-		$data = array("id"=>$obj_id);
-		$form_content = $this->load->view($view,$data,true);
-		/**
+                
 		switch($modal_type){
-			case "add_category":
-				$form_content = $this->load->view($view,'',true);
-				break;
-			case "add_contact":
-				$form_content = $this->load->view($view,'',true);
-				break;//
-		}*/
+                    case "add_category":
+                        $form_content = $this->load->view($view,$data,true);
+                        break;
+                    case "edit_category":
+                        // Get the info for given calendar
+                        $calendar = $this->schedule_model->get_calendar($obj_id); 
+                        if($calendar != 0){
+                            $data = $calendar[0];
+                        }
+                        // Calendar Managers
+                        $managers = $this->schedule_model->get_calendar_managers('261');
+                        $managers_list = '<ul><li>No Managers</li></ul>';
+                        if($managers != 0){
+                            $managers_list = '<ul>';
+                            foreach($managers as $manager){
+                                $manager_name = $manager->first_name . " " . $manager->last_name;
+                                $managers_list .= '<li><span style="text-align:left;"><a href="" title="Remove Manager"> X </a></span><span style="padding-left:20px;">' . $manager_name . '</span></li>';
+                                $existing_managers .= '<input type="hidden" name="manager_ids[]" value="'.$manager->id.'">';
+                            }
+                            $managers_list .= '</ul>';
+                            
+                        }
+
+                        $data->calendar_managers = $managers_list;
+                        for($i = 0; $i < 5 - count($managers); $i++){ // the limit should actually be the 5 minus the number of existing calendar managers
+                            $manager_inputs .= '<input type="text" class="calendar_manager" name="calendar_manager[]" size="40">';
+                        }
+                        $data->manager_inputs = $manager_inputs;
+                        $data->existing_managers = $existing_managers;
+                        $form_content = $this->load->view($view,$data,true);
+                        break;
+                    case "add_event":
+                        // Get user's calendars
+                        $calendars = $this->schedule_model->get_calendars($this->session->userdata('id'));
+                        if($calendars != 0){
+                            foreach($calendars as $calendar){
+                                $user_calendars .= '<input name="category" type="radio" id="'.$calendar->name.'" value="'.$calendar->id.'"><label for="'.$calendar->name.'">'.$calendar->name.'</label><br>';
+                            }
+                        }
+                        // Get reminders
+                        $reminder_notifications = array("1hourbefore"=>"1 hour before","1daybefore"=>"1 day before","1weekbefore"=>"1 week before");
+                        foreach($reminder_notifications as $key=>$notification){
+                                if($key == "none"){
+                                        $reminder_notification_list .= '<input type="checkbox" name="reminder_notification[]" id="'.$key.'" value="'.$key.'" checked><label for="'.$key.'">'.$notification.'</label><br/>';
+                                }else{
+                                        $reminder_notification_list .= '<input type="checkbox" name="reminder_notification[]" id="'.$key.'" value="'.$key.'"><label for="'.$key.'">'.$notification.'</label><br/>';
+                                }
+                        }       
+                        $reminder_notification_list .= '<input type="checkbox" name="reminder_notification_all" id="reminder_notification_all"><label for="reminder_notification_all">All</label><br/>';
+                        $data = array("id"=>$obj_id,"reminder_notification_list"=>$reminder_notification_list,"calendars"=>$user_calendars);
+                        $form_content = $this->load->view($view,$data,true);
+                        break;
+                    case "edit_event":
+                        break;
+                    case "edit_contact":
+                        break;
+		}      
+                
 		print_r($form_content);
 	}
 
@@ -174,14 +224,47 @@ class Schedule extends CI_Controller {
 	* Manages deleting Calendar, Events, Contacts
 	*/
 	public function delete_obj(){
-		// If obj is Calendar, must delete related events first
                 $status = 0;
-		if($this->schedule_model->delete_calendar($this->input->post('obj_id')) == 1){
-                    $status = 1;
+                if($this->input->post('obj_type') == "calendar"){
+                    // Delete related events
+                    if($this->schedule_model->delete_calendar($this->input->post('obj_id')) == 1){
+                        $status = 1;
+                    }                    
                 }
                 
                 print json_encode(array("status"=>$status));
 	}
+
+        public function update(){
+            $status = 0;
+            switch($this->input->post('obj_type')){
+                case "calendar":
+                    $calendar_managers = $this->input->post('calendar_manager');
+                    $manager_ids_list = $this->input->post('manager_ids');
+                    $id = $this->input->post('id');
+                    // Unset certain post variables to keep from passing to model
+                    unset($_POST['calendar_manager']);
+                    unset($_POST['obj_id']);
+                    unset($_POST['obj_type']);
+                    unset($_POST['manager_ids']);
+
+                        $this->schedule_model->update_calendar($this->input->post());
+                        $status = 1;
+                        // At this point application should update the managers list
+                        $this->schedule_model->update_calendar_managers(array("id"=>$id,"calendar_managers"=>$manager_ids_list));
+
+                    break;
+                case "event":
+                    break;
+                case "contact":
+                    break;
+                default:
+                    $status = 0;
+                    break;
+            }
+            //print_r($this->input->post());
+            print json_encode(array("status"=>$status));
+        }
 }
 
 /* End of file schedule.php */
