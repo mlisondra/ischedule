@@ -11,11 +11,11 @@
 	<input type="text" name="end_date" id="end_date" value="##end_date##" size="10">&nbsp;
 	<input type="text" name="end_time" id="end_time" value="##end_time##" size="10">
 	<br/><br/>
-	<span class="form_field_header">Assign to Category</span><br/>##user_categories##
+	<span class="form_field_header">Assign to Category</span><br/><?php print $calendars; ?>
 </td>
 <td>
 	<span class="form_field_header">Send Reminder Out</span><br/>
-	##reminder_notification_list##
+	<?php print $reminder_notification_list; ?>
 	<br/>
 	<span class="form_field_header">Description</span><br/>
 	<textarea name="description" id="description" rows="5" cols="30">##description##</textarea>
