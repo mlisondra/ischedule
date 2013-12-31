@@ -5,85 +5,45 @@ function goto_specific_month(month){
  }
 		 
 function get_contacts(){
-	var html = '';
-	$.post('../schedule/get_contacts',
-		function(data){
-			$.each(data.contacts, function(i, item) {
-				html = '<div class="color_list"></div>';
-				html += '<li>' + item.first_name + ' ' +  item.last_name + '</li>';
-				$('ul#contacts_list').append(html);
-			});
-		},"json");
+    var html = '';
+    $.post('../schedule/get_contacts',
+            function(data){
+                $.each(data.contacts, function(i, item) {
+                        html = '<div class="color_list"></div>';
+                        //html += '<li>' + item.first_name + ' ' +  item.last_name + '</li>';
+                        html += '<li><a href="###" rel="' + item.id + '" title="Edit Contact">' + item.first_name + ' ' + item.last_name + '</a></li>';
+                        $('ul#contacts_list').append(html);
+                });
+            },"json");
 }
 
-function show_modal(modal_type,obj_id){
+//function show_modal(modal_type,obj_id){ console.log(modal_type);
+function show_modal(elem){
 	var obj_id = typeof(obj_id) != 'undefined' ? obj_id : 0;
 	
-	var modal_type = modal_type;
+	//var modal_type = modal_type;
 	var modal_content = "";
 	var modal_title = "";
 	var modal_height = 400;
 	var modal_width = 500;
-	
-	switch(modal_type){
-		case "add_contact":
-			modal_title = "Add Contact";			
-			break;
-		case "edit_contact":
-			modal_title = "Edit Contact";
-			break;
-		case "manage_contacts":
-			modal_title = "Manage Contacts";
-			break;
-		case "add_category":
-			modal_title = "Add Calendar";
-			modal_height = 350;
-			modal_width = 350;			
-			break;
-		case "edit_category": //Really editing a Calendar
-			modal_title = "Edit Calendar";
-			modal_height = 470;
-			modal_width = 350;
-			break;
-		case "manage_categories":
-			modal_title = "Manage Calendars";
-			break;		
-		case "faqs":
-			modal_title = "FAQs";
-			break;
-		case "terms":
-			modal_title = "Terms & Conditions";
-			break;
-		case "about":
-			modal_title = "About";
-			break;
-		case "delete_selected_contacts":
-			modal_title = "Delete selected contacts";
-			obj_id = $('#contact_list_form').serialize();
-			break;
-		case "manage_contacts":
-			modal_title = "Manage Contacts";
-			break;
-		case "add_event":
-			modal_height = 450;
-			modal_title = "Add Event";
-			break;
-		case "edit_event":
-			modal_height = 450;
-			modal_title = "Edit Event";
-			break;
-		case "manage_events":
-			modal_title = "Manage Events";
-			break;
-		case "my_account":
-			modal_title = "Your Account Details";
-			break;
-		case "bulk_add":
-			modal_title = "Add Multiple Contacts";
-			break;
-	}
-	
-	//post_data = "action=get_modal_content&modal_type=" + modal_type + "&obj_id=" + obj_id;
+
+        if(elem.hasAttribute("id")){
+            modal_type = elem.getAttribute("id");
+            if(elem.getAttribute("id") == "add_category"){
+                modal_height = 300;
+            }
+        }else{
+            if(elem.getAttribute("title") == "Edit Calendar"){
+                modal_type = "edit_category";
+                modal_height = 490;
+            }else if(elem.getAttribute("title") == "Edit Contact"){
+                modal_type = "edit_contact";
+            }
+            obj_id = elem.getAttribute("rel");
+        }
+
+        modal_title = elem.getAttribute("title");
+ 	
 	post_data = "modal_type=" + modal_type + "&obj_id=" + obj_id;
 	var modal_content = $.post('../schedule/get_modal_form',post_data,
 		function(data){
@@ -99,6 +59,7 @@ function show_modal(modal_type,obj_id){
 				var today_date = current_month + "/" + current_day + "/" + current_year;
 				if(modal_type == "add_event"){
 					$("#begin_date").val(today_date); //apply today date to begin date picker only for Add Event
+                                        $("#end_date").val(today_date); 
 				}
 				var dates = $( "#begin_date, #end_date" ).datepicker({	
 							minDate : today_date,
@@ -139,6 +100,7 @@ function show_modal(modal_type,obj_id){
 		width: modal_width,
 		height: modal_height,
 		draggable: false,
+                // Section below commonted out as deemed unecessary
                /* buttons: {
 			"Save": function() {
 				switch(modal_type){
@@ -208,20 +170,28 @@ function show_modal(modal_type,obj_id){
 
 // Retrieves categories
 function get_categories(){
-	$.post('../calendars',
-		function(data){
-			$('ul#category_list li').remove(); // Remove existing the list
-			$.each(data.calendars, function(i, item) {
-				html = '<li><a href="">+</a><a href="###" rel="' + item.id + '">' + item.name + '</a></li>';
-				$('ul#category_list').append(html);
-			});
-		},"json");
+    $.post('../calendars',
+        function(data){
+            $('ul#category_list li').remove(); // Remove existing the list
+            $.each(data.calendars, function(i, item) {
+                    html = '<li><a href="">+</a><a href="###" rel="' + item.id + '" title="Edit Calendar">' + item.name + '</a></li>';
+                    $('ul#category_list').append(html);
+            });
+        },"json");
 }
 
+// Request user's events
 function get_user_events(){
-	$.post('../schedule/get_user_events',{"action":"get_user_events"},
+
+    var start_date = $("#mycalendar").fullCalendar('getView').start; // Start date of current month in view
+    var end_date = $("#mycalendar").fullCalendar('getView').end; // End date of current month in view
+
+    var start_ts = new Date(start_date).getTime() / 1000;
+    var end_ts = new Date(end_date).getTime() / 1000;
+    
+	$.get('../schedule/get_events',{"start":start_ts,"end":end_ts},
 		function(data){
-				$('#events_list').html(data);
+                    $('#events_list').html(data);
 		}
 	);
 }
@@ -230,6 +200,7 @@ function add_event(date_obj){
 	show_modal('add_event','');
 }
 
+/*
 function show_static_modal(modal_type){
 	var modal_type = modal_type;
 	var modal_content = "";
@@ -261,16 +232,20 @@ function show_static_modal(modal_type){
 	});
 }
 
+*/
+
+// Get user events
 function refresh_calendar(){
-	$('#mycalendar').fullCalendar('refetchEvents');
+    console.log("Refreshing calendars");
+    $('#mycalendar').fullCalendar('refetchEvents');
 }
 
 $("#logout").click(function(){
-	if(confirm("Are you sure you want to logout?")){
-		window.location.href="../logout/";
-	}else{
-		return false;
-	}
+    if(confirm("Are you sure you want to logout?")){
+            window.location.href="../logout/";
+    }else{
+            return false;
+    }
 });
 
 function expand_events(elem){
@@ -333,19 +308,11 @@ function update_category_list_modal(){
 
 // on load
 $(document).ready(function(){
-	/* Removed as it appears not to be production code
-	$("#add_contact_button").click(function(){
-		$.post("../schedule/process.php",{action:"verify_account"},function(data){
-			alert(data);
-		});
-	});
-	*/
 	
 	// Binding for calendar name/links; for editing
-	$("#category_list li a").live("click",function(){
+	$("#category_list li a, #contacts_list li a").live("click",function(){
 		var calendar_id = $(this).attr("rel");
-		console.log(calendar_id);
-		show_modal('edit_category',calendar_id);
+		show_modal(this);
 		
 	});
 	
@@ -357,7 +324,7 @@ $(document).ready(function(){
 	
 	// Binding for the action buttons within Schedule view
 	$(".button, .deselect_all").click(function(){
-		show_modal($(this).attr("id"));
+                show_modal(this);
 	});
 	
     //Setup Alert Modal
@@ -391,10 +358,6 @@ $(document).ready(function(){
 		}
 	});
 	
-	$("#contacts_list li").live("click",function(){
-		alert("got it");
-	});	
-	
 	// Delete button
 	$(".delete_button").live("click",function(){
 		$(this).next().show();
@@ -415,6 +378,7 @@ $(document).ready(function(){
                     function(data){
                         if(data.status == 1){
                             get_categories();
+                            refresh_calendar();
                             $('#modal_container').dialog('close');
                         }
                     },"json"
@@ -428,16 +392,43 @@ $(document).ready(function(){
 		$(this).parent().hide();
 	});
         
-        // Save button for Add Calendar
-        $(".save_button").live("click",function(){
-                validate_add_category();
-            }
-        );
-        
         // Save button cancel for Add Calendar
  	$(".save_button_cancel").live("click",function(){
             $('#modal_container').dialog('close');
-	});       
+	}); 
+        
+        // Binding for form
+        $(".iform").live("submit",function(e){
+            e.preventDefault();
+            switch(this.getAttribute("name")){
+                case "add_event_form":
+                    validate_add_event();
+                    break;
+                case "add_category_form":
+                    validate_add_category();
+                    break;
+                case "edit_category_form":
+                    validate_edit_category();
+                    break;
+                
+            }
+           
+        });
+        
+        $('.calendar_manager').live('keyup.autocomplete', 
+            function(){ 
+                $(this).autocomplete({ 
+                    source: "../controller/user_list.php",
+                    select: function( event, ui ) {
+                            $(this).val(ui.item.value);
+                            var hidden_input = '<input type="hidden" name="manager_ids[]" value="'+ ui.item.id + '">';
+                            $("#managers").append(hidden_input);
+                            return false;
+                        }				
+                    }
+                ); 			
+            });
+                        
 });	
 
 
