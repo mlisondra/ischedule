@@ -31,20 +31,20 @@ function validate_signup(){
 	}
 	
 	if(password == ''){
-		document.getElementById('password_error').style.display = "block";
-		num_errors++;
+            $('#password_error').show();
+            num_errors++;
 	}
 	
 	if(password2 == ''){
-		document.getElementById('password2_error').style.display = "block";
-		num_errors++;
+            $('#password2_error').show();
+            num_errors++;
 	}
 
 	if((password != '') && (password2 != '')){
-		if(password != password2){
-			document.getElementById('passwords_match_error').style.display = "block";
-			num_errors++;
-		}
+            if(password != password2){
+                document.getElementById('passwords_match_error').style.display = "block";
+                num_errors++;
+            }
 	}
 	
 	if(num_errors > 0){
@@ -73,101 +73,6 @@ function hide_errors(){
 	document.getElementById('password2_error').style.display = "none";
 	document.getElementById('passwords_match_error').style.display = "none";
 }
-
-	$(document).ready(function() {
-		$('form#login_form').submit(
-			function(form){ 
-				form.preventDefault();
-						var num_errors = 0;
-						var error_message = "";
-						
-						var user_email = $('#user_email').val();
-						var password = $('#password').val();
-				
-						//Clear error message
-						$('notification').html(error_message);
-				
-						if(user_email == ''){
-							error_message = "Email address is required<br/>";
-							num_errors++;
-						}else{
-							if(!IsEmail(user_email)){
-								error_message = "Invalid Email Address format<br/>";
-								num_errors++;		
-							}
-						}
-						if(password == ''){
-							error_message = error_message + "Password is required<br/>";
-							num_errors++;
-						}
-		
-						if(num_errors == 0){
-							var post = $('#login_form').serialize();
-							$.post('../schedule/auth',post,
-								function(data){
-									var response = data.status;
-									
-									if(response == 'error'){
-										$("#notification").html(data.message);
-										$("#notification").show();
-									}else if(response == 'ok'){
-										$("#login_form")[0].reset();
-										window.location.href = "../schedule/";
-									}
-									
-								},"json");
-						}else if(num_errors > 0){
-							$("#notification").html(error_message);
-							$("#notification").show();
-						}
-			}
-		); //end submit function
-
-	$('#reset_password_link').click(
-		function(){	show_reset_password(); }
-	);
-	
-	$("form#reset_password_form").submit(
-		function(form){
-			form.preventDefault();
-			var num_errors = 0;
-			var error_message = "";
-			var user_email = $("#user_email").val();
-			if(user_email == ''){
-				error_message = "Email address is required<br/>";
-				num_errors++;
-			}else{
-				if(!IsEmail(user_email)){
-					error_message = "Invalid Email Address format<br/>";
-					num_errors++;		
-				}
-			}
-			if(num_errors == 0){
-				var post = $('#reset_password_form').serialize();
-				post = post + "&action=reset_password";
-				$.post("../schedule/auth",post,
-					function(data){
-						if(data == 1){
-							$("#notification").html("Your new password has been sent to you.");
-						}else if(data == "invalid user"){
-							$("#notification").html("We could not find a user with that email address.");
-						}else if(data == 0){
-							$("#notification").html("We could not reset your password at this time. Try again later.");
-						}
-						$("#notification").show();
-					}
-				);
-			}else{
-				$("#notification").html(error_message);
-				$("#notification").show();
-			}
-			
-			
-		}
-	);
-	
-	} //end overall handler for document ready
-	);
 
 function show_reset_password(){
 	$("#notification").html("");
@@ -404,59 +309,59 @@ function validate_add_category(){
 }
 
 function validate_edit_category(){
-	clear_modal_form_notification();
-	
-	var name = $("#edit_category_form #name").val();
-	var color = $("#edit_category_form #color").val();
-	var num_errors = 0;
-	var error_message = ""; 
-	
-	if(name == ''){
-		error_message = error_message + "Category name is required<br/>";
-		num_errors++;
-	}
+    clear_modal_form_notification();
 
-	if(num_errors > 0){
-		$("#form_notification").html(error_message);
-		$("#form_notification").show();
-		return false;
-	}else{
-		var post = $('#edit_category_form').serialize();
-		var post_result = "";
-		$.ajax({
-			url:'process.php',
-			data:post,
-			type:"POST",
-			async:false,
-			success:function(data){
-				post_result = data;
-			}
-		});
-		if(post_result == 1){
-			$("#edit_category_form").remove();
-			$("#modal_container").html("Calendar Updated.");
-			reset_modal_buttons(); //reset buttons
-			refresh_calendar(); //from schedule.js
-		}else{
-			return false;
-		}
-	}	
+    var name = $("#edit_category_form #name").val();
+    var color = $("#edit_category_form #color").val();
+    var num_errors = 0;
+    var error_message = ""; 
+
+    if(name == ''){
+        error_message = error_message + "Calendar name is required<br/>";
+        num_errors++;
+    }
+
+    if(num_errors > 0){
+        $("#form_notification").html(error_message);
+        $("#form_notification").show();
+        return false;
+    }else{
+        var post = $('#edit_category_form').serialize();
+        var post_result = "";
+        $.ajax({
+            url:'../schedule/update',
+            data:post,
+            type:"POST",
+            async:false,
+            success:function(data){
+                if(data.status == 1){
+                    get_categories();
+                    $('#modal_container').dialog('close');
+                    refresh_calendar(); // schedule.js
+                }else{
+                        return false;
+                }
+            },
+            dataType : "json"
+        });
+
+    }	
 }
 
 
 //posts the selected contact ids
 function delete_selected_contacts(){
-	var post = $("#contact_list_form").serialize();
-	post = post + "&action=delete_selected_contacts";
-	$.ajax({url:'process.php',data:post,type:"POST",
-		success:function(data){
-			post_result = data;
-		}
-	});	
+    var post = $("#contact_list_form").serialize();
+    post = post + "&action=delete_selected_contacts";
+    $.ajax({url:'process.php',data:post,type:"POST",
+        success:function(data){
+                post_result = data;
+        }
+    });	
 }
 
 function validate_my_account(){
-	//clear errors
+    
 	clear_modal_form_notification();
 	
 	var first_name = $("#my_account_form #first_name").val();
@@ -499,7 +404,7 @@ function validate_my_account(){
 			check_password = "yes";
 		}
 	}
-	//alert(check_password);
+
 	if(num_errors > 0){
 		$("#form_notification").html(error_message);
 		$("#form_notification").show();
@@ -600,13 +505,13 @@ function validate_edit_event(){
 	var num_reminder_chosen = $('input[name="reminder_notification[]"]:checked').length > 0;
 	
 	if(title == ""){
-		error_message = error_message + "Title Required<br/>";
-		num_errors++;
+            error_message = error_message + "Title Required<br/>";
+            num_errors++;
 	}
 	
 	if(begin_date == ""){
-		error_message = error_message + "Begin Date Required<br/>";
-		num_errors++;	
+            error_message = error_message + "Begin Date Required<br/>";
+            num_errors++;	
 	}
 	if(begin_time == ""){
 		error_message = error_message + "Begin Time Required<br/>";
@@ -632,22 +537,22 @@ function validate_edit_event(){
 		num_errors++;
 	}	
 	if(num_errors == 0){
-		var post = $('#edit_event_form').serialize();
-		var post_result = "";
-		$.ajax({url:'process.php',data:post,type:"POST",async:false,
-			success:function(data){
-				post_result = data;
-			}
-		});
-		if(post_result == 1){
-			$("#edit_event_form").remove();
-			$("#modal_container").html("Event Updated");
-			reset_modal_buttons(); //reset buttons		
-			get_categories();
-			refresh_calendar();
-		}else{
-			return false;
-		}
+            var post = $('#edit_event_form').serialize();
+            var post_result = "";
+            $.ajax({url:'process.php',data:post,type:"POST",async:false,
+                    success:function(data){
+                            post_result = data;
+                    }
+            });
+            if(post_result == 1){
+                    $("#edit_event_form").remove();
+                    $("#modal_container").html("Event Updated");
+                    reset_modal_buttons(); //reset buttons		
+                    get_categories();
+                    refresh_calendar();
+            }else{
+                    return false;
+            }
 	}else{
 		$("#form_notification").html(error_message);
 		$("#form_notification").show();	
@@ -726,18 +631,17 @@ function validate_delete_event(){
 }
 
 function reset_modal_buttons(){
-	$('#modal_container').dialog({
-		buttons:{
-			"Close": function(){
-				$('#modal_container').dialog("close");
-			}
-		},
-		height: 200
-	});
+    $('#modal_container').dialog({
+            buttons:{
+                    "Close": function(){
+                            $('#modal_container').dialog("close");
+                    }
+            },
+            height: 200
+    });
 }
 
 function clear_modal_form_notification(){
-	//clear errors
 	$("#form_notification").html("");
 	$("#form_notification").hide();
 }
@@ -745,9 +649,7 @@ function clear_modal_form_notification(){
 function bulk_add(){
 	var email_list = $("#email_list").val();
 	var email_list_cleaned = email_list.replace(/;/g,',');
-	
-	//$.post("/controller/process_bulk_add.php",{email_list:email_list_cleaned},
-	//$.post("/controller/process_bulk_add_v2.php",{email_list:email_list_cleaned},
+
 	$.post("/controller/process_bulk_add_v3.php",{email_list:email_list_cleaned},
 		function(data){
 				if(data.status == "success"){
@@ -760,3 +662,99 @@ function bulk_add(){
 		},"json"
 	);	
 }
+
+
+$(document).ready(function() {
+		$('form#login_form').submit(
+			function(form){ 
+				form.preventDefault();
+						var num_errors = 0;
+						var error_message = "";
+						
+						var user_email = $('#user_email').val();
+						var password = $('#password').val();
+				
+						//Clear error message
+						$('notification').html(error_message);
+				
+						if(user_email == ''){
+							error_message = "Email address is required<br/>";
+							num_errors++;
+						}else{
+							if(!IsEmail(user_email)){
+								error_message = "Invalid Email Address format<br/>";
+								num_errors++;		
+							}
+						}
+						if(password == ''){
+							error_message = error_message + "Password is required<br/>";
+							num_errors++;
+						}
+		
+						if(num_errors == 0){
+							var post = $('#login_form').serialize();
+							$.post('../schedule/auth',post,
+								function(data){
+									var response = data.status;
+									
+									if(response == 'error'){
+										$("#notification").html(data.message);
+										$("#notification").show();
+									}else if(response == 'ok'){
+										$("#login_form")[0].reset();
+										window.location.href = "../schedule/";
+									}
+									
+								},"json");
+						}else if(num_errors > 0){
+							$("#notification").html(error_message);
+							$("#notification").show();
+						}
+			}
+		); //end submit function
+
+	$('#reset_password_link').click(
+		function(){	show_reset_password(); }
+	);
+	
+	$("form#reset_password_form").submit(
+		function(form){
+			form.preventDefault();
+			var num_errors = 0;
+			var error_message = "";
+			var user_email = $("#user_email").val();
+			if(user_email == ''){
+				error_message = "Email address is required<br/>";
+				num_errors++;
+			}else{
+				if(!IsEmail(user_email)){
+					error_message = "Invalid Email Address format<br/>";
+					num_errors++;		
+				}
+			}
+			if(num_errors == 0){
+				var post = $('#reset_password_form').serialize();
+				post = post + "&action=reset_password";
+				$.post("../schedule/auth",post,
+					function(data){
+						if(data == 1){
+							$("#notification").html("Your new password has been sent to you.");
+						}else if(data == "invalid user"){
+							$("#notification").html("We could not find a user with that email address.");
+						}else if(data == 0){
+							$("#notification").html("We could not reset your password at this time. Try again later.");
+						}
+						$("#notification").show();
+					}
+				);
+			}else{
+				$("#notification").html(error_message);
+				$("#notification").show();
+			}
+			
+			
+		}
+	);
+	
+	} //end overall handler for document ready
+	);
