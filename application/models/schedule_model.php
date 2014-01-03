@@ -6,6 +6,7 @@ class Schedule_model extends CI_Model {
 	protected $calendars = 'user_categories';
         protected $calendar_managers = 'calendar_managers';
         protected $events = 'user_events';
+        protected $contacts = 'user_contacts';
         protected $cdt = "";
 
         public function __construct(){
@@ -310,6 +311,27 @@ class Schedule_model extends CI_Model {
         public function update_event(){
             
         }
+        
+        public function search_users($search_term,$user_id){
+            
+           
+            $this->db->select('id,first_name,last_name');
+            //$this->db->like('first_name',$search_term,'after');
+            //$this->db->or_like('last_name',$search_term,'after');
+            $this->db->where("(`first_name` LIKE '$search_term%' OR `last_name` LIKE '$search_term%')");
+            $this->db->where('user',$user_id);
+            $query = $this->db->get($this->contacts);
+            log_message('user lookup',$search_term);
+            //print $this->db->last_query();
+            if($query->num_rows() > 0){
+                return $query->result();
+            }else{
+                return 0;
+            }
+            
+            
+            
+        }        
 }
 
 
