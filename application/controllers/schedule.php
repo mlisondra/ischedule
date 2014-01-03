@@ -168,7 +168,7 @@ class Schedule extends CI_Controller {
                             $data = $calendar[0];
                         }
                         // Calendar Managers
-                        $managers = $this->schedule_model->get_calendar_managers('261');
+                        $managers = $this->schedule_model->get_calendar_managers($obj_id);
                         $managers_list = '<ul><li>No Managers</li></ul>';
                         if($managers != 0){
                             $managers_list = '<ul>';
@@ -264,6 +264,25 @@ class Schedule extends CI_Controller {
             }
             //print_r($this->input->post());
             print json_encode(array("status"=>$status));
+        }
+        
+        /**
+         * Search contacts using given search term
+         * Search is performed within currently logged in user's list of contacts
+         * @param string $search_term
+         */
+        public function user_lookup(){
+            $search_term = $this->input->get('term');
+            $contacts = $this->schedule_model->search_users($search_term, $this->session->userdata('id'));
+            if($contacts != 0){
+                foreach($contacts as $contact){
+                    $full_name = $contact->first_name . ' ' . $contact->last_name;
+                    $contacts_array[] = array("label"=>$full_name,"id"=>$contact->id);
+                }
+                print json_encode($contacts_array);
+            }
+            
+        
         }
 }
 
