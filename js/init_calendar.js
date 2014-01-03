@@ -61,19 +61,7 @@ $(document).ready(function() {
                       
 			// End calendar init
                         
-			 $('.calendar_manager').live('keyup.autocomplete', 
-                            function(){ 
-                                $(this).autocomplete({ 
-                                    source: "../controller/user_list.php",
-                                    select: function( event, ui ) {
-                                                    $(this).val(ui.item.value);
-                                                    var hidden_input = '<input type="hidden" name="manager_ids[]" value="'+ ui.item.id + '">';
-                                                    $("#managers").append(hidden_input);
-                                                    return false;
-                                            }				
-                                    }
-                            ); 			
-			});
+			
 		
 });
 		 
