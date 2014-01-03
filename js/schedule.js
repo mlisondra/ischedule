@@ -416,15 +416,17 @@ $(document).ready(function(){
         });
         
         $('.calendar_manager').live('keyup.autocomplete', 
-            function(){ 
+            function(){ console.log(this);
                 $(this).autocomplete({ 
-                    source: "../controller/user_list.php",
+                    source: "../schedule/user_lookup",
+                    minLength : 3,
                     select: function( event, ui ) {
                             $(this).val(ui.item.value);
                             var hidden_input = '<input type="hidden" name="manager_ids[]" value="'+ ui.item.id + '">';
-                            $("#managers").append(hidden_input);
+                            $("#managers_list").append(hidden_input);
                             return false;
-                        }				
+                        }
+                        
                     }
                 ); 			
             });
