@@ -118,15 +118,16 @@ class Schedule_model extends CI_Model {
             $this->db->select('manager_id');
             $this->db->where('calendar_id',$calendar_id);
             $query = $this->db->get($this->calendar_managers);
+            //print $this->db->last_query();
             if($query->num_rows() > 0){
                 foreach($query->result() as $manager){
                     $managers_array[] = $manager->manager_id;
-                }
+                } //print_r($managers_array);
                 // Get info for each manager
                 $this->db->select('first_name,last_name,id');
                 $this->db->where_in('id',$managers_array);
                 $managers_query = $this->db->get($this->accounts);
-                
+                //print $this->db->last_query();
                 return $managers_query->result();
                 
             }else{
@@ -136,16 +137,42 @@ class Schedule_model extends CI_Model {
         
         /*
          * update_calendar_managers
+         * Update managers for given Calendar
+         * Each manager must have an account; a new account for a Manager is created, if needed
          * @param array $args ($id - calendar id; $calendar_managers - array of manager ids)
          */
         public function update_calendar_managers($args){
+            $this->load->model('contacts_model');
             // Delete all existing manager ids
             $this->db->where('calendar_id',$args['id']);
             $this->db->delete($this->calendar_managers);
            
             // Add each given manager id
             foreach($args['calendar_managers'] as $manager){
-                $this->db->insert($this->calendar_managers, array('calendar_id'=>$args['id'],'manager_id'=>$manager));
+                //check to see that each manager has a valid account
+                // get manager's information from user_contacts - need email address
+                $contact_info = $this->contacts_model->get_contact($manager);
+                
+                if($contact_info != 0){
+                    // see if contact has an account
+                    if($this->check_email_exists($contact_info->email)){
+                        $user = $this->get_user($contact_info->email);
+                        $user_id = $user->id;
+                        
+                    }else{
+                        $new_user['first_name'] = $contact_info->first_name;
+                        $new_user['last_name'] = $contact_info->last_name;
+                        $new_user['email'] = $contact_info->email;
+                        $new_user['password'] = md5($this->get_random_string("abcdefABCDEF_0123456789",5));
+                        $new_user['phone'] = $contact_info->phone;
+                        $new_user['phone_carrier'] = $contact_info->phone_carrier;
+                        $user_id = $this->create_user($new_user);
+                        
+                        // Send new user email regarding their new account
+                    }
+                }
+                
+                $this->db->insert($this->calendar_managers, array('calendar_id'=>$args['id'],'manager_id'=>$user_id));
             }
         }
         
@@ -185,6 +212,16 @@ class Schedule_model extends CI_Model {
 		
 	}
 
+        /**
+         * Create a new user
+         * @param $data array
+         * @return mixed - user id on success; false on failure
+         */
+        public function create_user($data){
+            $this->db->insert($this->accounts,$data);
+            return $this->db->insert_id();
+        }
+        
 	/**
 	* get_user
 	* Retrieve user info
@@ -313,11 +350,8 @@ class Schedule_model extends CI_Model {
         }
         
         public function search_users($search_term,$user_id){
-            
            
             $this->db->select('id,first_name,last_name');
-            //$this->db->like('first_name',$search_term,'after');
-            //$this->db->or_like('last_name',$search_term,'after');
             $this->db->where("(`first_name` LIKE '$search_term%' OR `last_name` LIKE '$search_term%')");
             $this->db->where('user',$user_id);
             $query = $this->db->get($this->contacts);
@@ -328,10 +362,32 @@ class Schedule_model extends CI_Model {
             }else{
                 return 0;
             }
-            
-            
-            
-        }        
+        }
+        
+        public function get_random_string($valid_chars, $length){
+            // start with an empty random string
+            $random_string = "";
+
+            // count the number of chars in the valid chars string so we know how many choices we have
+            $num_valid_chars = strlen($valid_chars);
+
+            // repeat the steps until we've created a string of the right length
+            for ($i = 0; $i < $length; $i++){
+                // pick a random number from 1 up to the number of valid chars
+                $random_pick = mt_rand(1, $num_valid_chars);
+
+                // take the random character out of the string of valid chars
+                // subtract 1 from $random_pick because strings are indexed starting at 0, and we started picking at 1
+                $random_char = $valid_chars[$random_pick-1];
+
+                // add the randomly-chosen char onto the end of our string so far
+                $random_string .= $random_char;
+            }
+
+            // return our finished random string
+            return $random_string;
+        }
+
 }
 
 
