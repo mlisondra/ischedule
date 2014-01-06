@@ -266,6 +266,10 @@ class Schedule extends CI_Controller {
             print json_encode(array("status"=>$status));
         }
         
+        public function remove_calendar_manager(){
+            
+        }
+        
         /**
          * Search contacts using given search term
          * Search is performed within currently logged in user's list of contacts

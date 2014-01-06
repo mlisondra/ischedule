@@ -308,7 +308,7 @@ function update_category_list_modal(){
 
 // on load
 $(document).ready(function(){
-	
+
 	// Binding for calendar name/links; for editing
 	$("#category_list li a, #contacts_list li a").live("click",function(){
 		var calendar_id = $(this).attr("rel");
