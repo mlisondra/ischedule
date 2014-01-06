@@ -19,6 +19,19 @@ class Contacts_model extends CI_Model {
 			return 0;
 		}
 	}
+        
+        /**
+         * Get contact using given contact id
+         *  @param int $id Contact id
+         */
+        public function get_contact($id){
+            $this->db->where('id',$id);
+            $query = $this->db->get($this->contacts);
+            //print $this->db->last_query();
+            if($query->num_rows() == 1){
+                return $query->row(); // return contact object
+            }
+        }
 	
 	
 }
