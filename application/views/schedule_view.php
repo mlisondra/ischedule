@@ -1,11 +1,3 @@
-<?php //include('../config/production.php'); ?>
-<?php
-/*
-if($_SESSION['user']['logged_in'] != 'yes'){
-	header("Location: /login/");
-}
-*/
-?>
 <!DOCTYPE html>
 <html>
 	<head>
