@@ -100,67 +100,7 @@ function show_modal(elem){
 		width: modal_width,
 		height: modal_height,
 		draggable: false,
-                // Section below commonted out as deemed unecessary
-               /* buttons: {
-			"Save": function() {
-				switch(modal_type){
-					case "add_contact":
-						validate_add_contact();
-						get_contacts();
-						break;
-					case "edit_contact":
-						validate_edit_contact();
-						get_contacts();
-						break;
-					case "manage_contacts":
-						validate_delete_contact();
-						get_contacts();
-						break;
-					//case "add_category":
-						//validate_add_category();
-						//get_categories(); // this should happend in validate.js
-						//get_contacts(); // this should happend in validate.js
-						//break;
-					//case "edit_category":
-						//validate_edit_category();
-						//get_categories(); // this should happend in validate.js
-						//get_contacts(); // this should happend in validate.js
-						//break;
-					case "delete_selected_contacts":
-						delete_selected_contacts();
-						break;
-					case "my_account":
-						validate_my_account();
-						break;
-					case "add_event":
-						validate_add_event();
-						get_user_events();
-						break;
-					case "edit_event":
-						validate_edit_event();
-						break;
-					case "manage_categories":
-						validate_delete_category();
-						get_contacts();
-						refresh_calendar();
-						break;
-					case "manage_contacts":
-						validate_delete_contact();
-						break;
-					case "manage_events":
-						validate_delete_event();
-						break;
-					case "bulk_add":
-						bulk_add(); //from validate.js
-						break;
-				}
-				
-			}, 
-			"Cancel": function() {
-				$(this).dialog("destroy");
-			}		
-		},*/
-		modal: true,
+            	modal: true,
 		title: modal_title,
 		open: function(event, ui) { $('#modal_container').html(""); },
                 dialogClass: 'no-close' // Ensures that the Close button is disabled for all modal instances
@@ -430,6 +370,14 @@ $(document).ready(function(){
                     }
                 ); 			
             });
+            
+        $('#manager_names a').live("click",function(){
+            console.log(this);
+            // get the manager id from rel attribute
+            // get the calendar id from the form hidden input id
+            // post to /schedulre/remove_calendar_manager
+            return false;
+        });
                         
 });	
 
