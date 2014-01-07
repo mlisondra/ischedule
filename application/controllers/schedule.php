@@ -174,7 +174,7 @@ class Schedule extends CI_Controller {
                             $managers_list = '<ul>';
                             foreach($managers as $manager){
                                 $manager_name = $manager->first_name . " " . $manager->last_name;
-                                $managers_list .= '<li><span style="text-align:left;"><a href="" title="Remove Manager"> X </a></span><span style="padding-left:20px;">' . $manager_name . '</span></li>';
+                                $managers_list .= '<li><span style="text-align:left;"><a href="" title="Remove Manager" rel="'.$manager->id.'"> X </a></span><span style="padding-left:20px;">' . $manager_name . '</span></li>';
                                 $existing_managers .= '<input type="hidden" name="manager_ids[]" value="'.$manager->id.'">';
                             }
                             $managers_list .= '</ul>';
