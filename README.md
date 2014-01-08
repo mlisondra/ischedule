@@ -1,4 +1,4 @@
-ischedule
+iSchedule247
 =========
 
 A very simple way to schedule and send short, automatic email and text/SMS reminders to anyone for free.
