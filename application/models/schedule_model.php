@@ -118,10 +118,11 @@ class Schedule_model extends CI_Model {
             $this->db->select('manager_id');
             $this->db->where('calendar_id',$calendar_id);
             $query = $this->db->get($this->calendar_managers);
+            //print $this->db->last_query();
             if($query->num_rows() > 0){
                 foreach($query->result() as $manager){
                     $managers_array[] = $manager->manager_id;
-                }
+                } //print_r($managers_array);
                 // Get info for each manager
                 $this->db->select('first_name,last_name,id');
                 $this->db->where_in('id',$managers_array);
@@ -147,12 +148,11 @@ class Schedule_model extends CI_Model {
             $this->db->delete($this->calendar_managers);
            
             // Add each given manager id
-            foreach($args['calendar_managers'] as $manager){ // at this point $manager object contains the account id 
-                //print_r($manager);
+            foreach($args['calendar_managers'] as $manager){
                 //check to see that each manager has a valid account
                 // get manager's information from user_contacts - need email address
                 $contact_info = $this->contacts_model->get_contact($manager);
-                //print_r($contact_info);
+                
                 if($contact_info != 0){
                     // see if contact has an account
                     if($this->check_email_exists($contact_info->email)){
@@ -170,22 +170,12 @@ class Schedule_model extends CI_Model {
                         
                         // Send new user email regarding their new account
                     }
-                    $this->db->insert($this->calendar_managers, array('calendar_id'=>$args['id'],'manager_id'=>$user_id));
-                    //print $this->db->last_query();
-           
                 }
                 
+                $this->db->insert($this->calendar_managers, array('calendar_id'=>$args['id'],'manager_id'=>$user_id));
             }
         }
         
-        public function  delete_calendar_manager($args){
-            //print_r($args);
-            $this->db->where('calendar_id',$args['calendar_id']);
-            $this->db->where('manager_id',$args['manager_id']);
-            $this->db->delete($this->calendar_managers);
-            //print $this->db->last_query();
-            
-        }
 	/**
 	* check_account_exists
 	* @param string $email
@@ -239,7 +229,7 @@ class Schedule_model extends CI_Model {
 	* @return object $user
 	*/
 	public function get_user($email){
-		$this->db->select('id,first_name,last_name,phone,phone_carrier,status,subscription,email');
+		$this->db->select('id,first_name,last_name,phone,phone_carrier,status,subscription');
 		$this->db->where('email',$email);
 		$query = $this->db->get($this->accounts);
 		if($query->num_rows() == 1){
@@ -249,24 +239,7 @@ class Schedule_model extends CI_Model {
 			return false;
 		}
 	}
-        
-	/**
-	* get_user_by_id
-	* Retrieve user info
-	* $email string User id
-	* @return object $user
-	*/
-	public function get_user_by_id($id){
-		$this->db->select('id,first_name,last_name,phone,phone_carrier,status,subscription,email');
-		$this->db->where('id',$id);
-		$query = $this->db->get($this->accounts);
-		if($query->num_rows() == 1){
-			$user = $query->row();
-			return $user;
-		}else{
-			return false;
-		}
-	}        
+	
         
         /*
          * Delete calendar events associated with given calendar id
@@ -378,7 +351,7 @@ class Schedule_model extends CI_Model {
         
         public function search_users($search_term,$user_id){
            
-            $this->db->select('id,first_name,last_name,email');
+            $this->db->select('id,first_name,last_name');
             $this->db->where("(`first_name` LIKE '$search_term%' OR `last_name` LIKE '$search_term%')");
             $this->db->where('user',$user_id);
             $query = $this->db->get($this->contacts);

@@ -372,51 +372,15 @@ $(document).ready(function(){
             });
             
         $('#manager_names a').live("click",function(){
+            console.log(this);
             // get the manager id from rel attribute
             // get the calendar id from the form hidden input id
             // post to /schedulre/remove_calendar_manager
-            var manager_id = $(this).attr("rel");
-            var form_id = $(this).closest('form').attr("id");
-            var calendar_id = $('#' + form_id + ' #id').val();
-            $.post('/schedule/remove_calendar_manager',
-                {"manager_id":manager_id,
-                    "obj_type":"calendar_manager",
-                    "calendar_id":calendar_id},
-                "json"       
-            );
-            // removes the LI element
-            $(this).parent().parent().remove();
-            console.log(document.getElementById('managers').getElementsByTagName('input'));
             return false;
-        });       
-        
-        /*
-        var url = 'http://api.biblia.com/v1/bible/content/leb.txt.json?passage=ephesians6.11';
-        params = {"key": "feca7291413de8fbcf4b482ac98ce0f6"};
-        $.ajax({
-           type: 'GET',
-            url: url,
-            async: false,
-            jsonpCallback: 'myCallbackFunction',
-            contentType: "application/json",
-            dataType: 'jsonp',
-            success: function(json) {
-               //console.log(json);
-            },
-            error: function(e) {
-               console.log(e.message);
-            },
-            data : params
         });
-        
-    $.post('../schedule/get_passage',{"passage":"Matthew 5:1"},
-        function(data){
-           alert(data);
-        }
-    );     
-    */
-});
+                        
+});	
 
-function myCallbackFunction(json){;
-    $('#bible').html(json.text);
-}
+
+
+
