@@ -89,6 +89,7 @@
 				</div>		
 			</div> <!--End Right Col-->
 		<div class="clear"></div>
+                <div id="bible">test</div>
 		</div> <!--End Content-->
 		<?php include('../includes/footer.php'); ?>
 	</div> <!--End Container-->

@@ -32,6 +32,18 @@ class Contacts_model extends CI_Model {
                 return $query->row(); // return contact object
             }
         }
-	
+
+        /**
+         * Get contact using given contact id
+         *  @param int $id Contact id
+         */
+        public function get_contact_by_email($email){
+            $this->db->where('email',$email);
+            $query = $this->db->get($this->contacts);
+            //print $this->db->last_query();
+            if($query->num_rows() == 1){
+                return $query->row(); // return contact object
+            }
+        }        
 	
 }

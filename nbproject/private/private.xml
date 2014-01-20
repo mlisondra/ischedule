@@ -3,11 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/xampp/ischedule/controller/process.php</file>
+            <file>file:/C:/xampp/ischedule/js/schedule.js</file>
+            <file>file:/C:/xampp/ischedule/application/views/schedule_view.php</file>
             <file>file:/C:/xampp/ischedule/application/controllers/schedule.php</file>
             <file>file:/C:/xampp/ischedule/application/models/contacts_model.php</file>
             <file>file:/C:/xampp/ischedule/application/models/schedule_model.php</file>
-            <file>file:/C:/xampp/ischedule/includes/utilities.php</file>
         </group>
     </open-files>
 </project-private>

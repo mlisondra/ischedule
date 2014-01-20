@@ -6,6 +6,7 @@ class Schedule extends CI_Controller {
 		parent::__construct();
 		$this->load->library('session');
                 $this->load->model('schedule_model');
+                $this->load->model('contacts_model');
 	}
 	
 	public function index(){
@@ -171,18 +172,23 @@ class Schedule extends CI_Controller {
                         $managers = $this->schedule_model->get_calendar_managers($obj_id);
                         $managers_list = '<ul><li>No Managers</li></ul>';
                         if($managers != 0){
+                            $num_managers = count($managers);
                             $managers_list = '<ul>';
                             foreach($managers as $manager){
+                                $user = $this->schedule_model->get_user_by_id($manager->id);
+                                $contact_info = $this->contacts_model->get_contact_by_email($user->email);
                                 $manager_name = $manager->first_name . " " . $manager->last_name;
                                 $managers_list .= '<li><span style="text-align:left;"><a href="" title="Remove Manager" rel="'.$manager->id.'"> X </a></span><span style="padding-left:20px;">' . $manager_name . '</span></li>';
-                                $existing_managers .= '<input type="hidden" name="manager_ids[]" value="'.$manager->id.'">';
+                                $existing_managers .= '<input type="hidden" name="manager_ids[]" value="'.$contact_info->id.'">';
                             }
                             $managers_list .= '</ul>';
-                            
+                        }else{
+                            $num_managers = 0;
                         }
 
                         $data->calendar_managers = $managers_list;
-                        for($i = 0; $i < 5 - count($managers); $i++){ // the limit should actually be the 5 minus the number of existing calendar managers
+                       
+                        for($i = 1; $i <= 5 - $num_managers; $i++){ // the limit should actually be the 5 minus the number of existing calendar managers
                             $manager_inputs .= '<input type="text" class="calendar_manager" name="calendar_manager[]" size="40">';
                         }
                         $data->manager_inputs = $manager_inputs;
@@ -262,12 +268,17 @@ class Schedule extends CI_Controller {
                     $status = 0;
                     break;
             }
-            //print_r($this->input->post());
+            
             print json_encode(array("status"=>$status));
         }
         
-        public function remove_calendar_manager(){
-            
+        public function remove_calendar_manager(){ 
+
+            if($this->input->is_ajax_request()){
+                $this->schedule_model->delete_calendar_manager($this->input->post());
+            }else{
+                return json_encode(array("status"=>"invalid request"));
+            }
         }
         
         /**
@@ -281,13 +292,14 @@ class Schedule extends CI_Controller {
             if($contacts != 0){
                 foreach($contacts as $contact){
                     $full_name = $contact->first_name . ' ' . $contact->last_name;
-                    $contacts_array[] = array("label"=>$full_name,"id"=>$contact->id);
+                    $user = $this->schedule_model->get_user($contact->email);
+                    $contacts_array[] = array("label"=>$full_name,"id"=>$contact->id,"account_id"=>$user->id);
                 }
                 print json_encode($contacts_array);
             }
-            
         
         }
+       
 }
 
 /* End of file schedule.php */

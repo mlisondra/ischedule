@@ -42,6 +42,10 @@
 $route['default_controller'] = "schedule";
 $route['calendars'] = "schedule/get_categories";
 $route['logout'] = "schedule/logout";
+
+// For api
+$route['users/(:num)'] = 'users/index/$1';
+$route['users/(:num)/calendars'] = 'users/index/$1/calendars';
 $route['404_override'] = '';
 
 
