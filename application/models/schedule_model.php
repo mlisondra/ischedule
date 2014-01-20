@@ -118,16 +118,15 @@ class Schedule_model extends CI_Model {
             $this->db->select('manager_id');
             $this->db->where('calendar_id',$calendar_id);
             $query = $this->db->get($this->calendar_managers);
-            //print $this->db->last_query();
             if($query->num_rows() > 0){
                 foreach($query->result() as $manager){
                     $managers_array[] = $manager->manager_id;
-                } //print_r($managers_array);
+                }
                 // Get info for each manager
                 $this->db->select('first_name,last_name,id');
                 $this->db->where_in('id',$managers_array);
                 $managers_query = $this->db->get($this->accounts);
-                //print $this->db->last_query();
+
                 return $managers_query->result();
                 
             }else{
