@@ -3,6 +3,7 @@
 class Contacts_model extends CI_Model {
 
 	protected $contacts = 'user_contacts';
+        protected $contacts_calendars = 'user_contacts_categories';
 	
 	/**
 	* get_contacts
@@ -41,20 +42,29 @@ class Contacts_model extends CI_Model {
             $categories = $args['category'];
             unset($args['category']);
             $this->db->insert($this->contacts,$args);
+            //print $this->db->last_query();
             
             if($this->db->affected_rows() == 1){
-                // in here, need to call local method manage_contacts_categories with the user id, 
-                return $this->db->insert_id();
+                $contact_id = $this->db->insert_id();
+                Contacts_model::calendar_contacts(array("contact_id"=>$contact_id,"calendars"=>$categories));
+                return $contact_id;
             }else{
                 return false;
             }   
         }
 	
         /**
-         * Updates the categories that the given contact id is to be associated with
+         * Updates the relationship between a calendar and contacts
          */
-        public function manage_contacts_categories($args){
-            print_r($args);
+        public function calendar_contacts($args){
+            extract($args);
+            
+            foreach($calendars as $calendar){
+                $data[] = array('contact'=>$contact_id,'category'=>$calendar);
+            }
+            
+            $this->db->insert_batch($this->contacts_calendars,$data);
+            
         }
 
 	
