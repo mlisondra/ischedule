@@ -354,8 +354,8 @@ class Schedule_model extends CI_Model {
             $this->db->where("(`first_name` LIKE '$search_term%' OR `last_name` LIKE '$search_term%')");
             $this->db->where('user',$user_id);
             $query = $this->db->get($this->contacts);
-            log_message('user lookup',$search_term);
-            //print $this->db->last_query();
+            log_message('debug',$search_term);
+            log_message('debug',$this->db->last_query());
             if($query->num_rows() > 0){
                 return $query->result();
             }else{
