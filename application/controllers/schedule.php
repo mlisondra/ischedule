@@ -6,14 +6,15 @@ class Schedule extends CI_Controller {
 		parent::__construct();
 		$this->load->library('session');
                 $this->load->model('schedule_model');
+                $this->load->model('utilities_model');
 	}
 	
 	public function index(){
-		if($this->session->userdata('authenticated') == 1){
-			$this->load->view('schedule_view');
-		}else{
-			$this->load->view('login_view');
-		}
+            if($this->session->userdata('authenticated') == 1){
+                    $this->load->view('schedule_view');
+            }else{
+                    $this->load->view('login_view');
+            }
 	}
 	
 	/**
@@ -100,11 +101,11 @@ class Schedule extends CI_Controller {
 	public function delete_calendar(){
 	
 	}
-	
+	/** not needed; taken care of update function
 	public function edit_calendar(){
 	
 	}
-	
+	**/
 	public function add_event(){
             $_POST['user'] = $this->session->userdata('id'); // Must be a better way to do this
             if($this->schedule_model->add_event($this->input->post()) != false){
@@ -121,6 +122,12 @@ class Schedule extends CI_Controller {
 	public function edit_event(){
 	
 	}
+        
+        public function add_contact(){
+            $this->load->model('contacts_model');
+            $_POST['user'] = $this->session->userdata('id'); // add current user's id
+            $this->contacts_model->add($this->input->post());
+        }
 	
         /**
          * Retrieve data for the calendar
@@ -212,6 +219,18 @@ class Schedule extends CI_Controller {
                         break;
                     case "edit_event":
                         break;
+                    case "add_contact":
+                        $data['phone_carriers'] = $this->utilities_model->get_phone_carriers();
+                        $calendars = $this->schedule_model->get_calendars($this->session->userdata('id'));
+                        if($calendars != 0){
+                            foreach($calendars as $calendar){
+                                $user_calendars .= '<input name="category[]" type="checkbox" id="'.$calendar->name.'" value="'.$calendar->id.'"><label for="'.$calendar->name.'">'.$calendar->name.'</label><br>';
+                            }
+                        }                        
+                        $data['calendars'] = $user_calendars;
+                        
+                        $form_content = $this->load->view($view,$data,true);
+                        break;
                     case "edit_contact":
                         break;
 		}      
@@ -262,7 +281,7 @@ class Schedule extends CI_Controller {
                     $status = 0;
                     break;
             }
-            //print_r($this->input->post());
+            log_message('debug',print_r($this->input->post(),true));
             print json_encode(array("status"=>$status));
         }
         
