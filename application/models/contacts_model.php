@@ -27,11 +27,35 @@ class Contacts_model extends CI_Model {
         public function get_contact($id){
             $this->db->where('id',$id);
             $query = $this->db->get($this->contacts);
-            //print $this->db->last_query();
             if($query->num_rows() == 1){
                 return $query->row(); // return contact object
             }
         }
+        
+        /**
+         * 
+         * @param array $args
+         * @return returns the new record's id on success; false on failure
+         */
+        public function add($args){
+            $categories = $args['category'];
+            unset($args['category']);
+            $this->db->insert($this->contacts,$args);
+            
+            if($this->db->affected_rows() == 1){
+                // in here, need to call local method manage_contacts_categories with the user id, 
+                return $this->db->insert_id();
+            }else{
+                return false;
+            }   
+        }
 	
+        /**
+         * Updates the categories that the given contact id is to be associated with
+         */
+        public function manage_contacts_categories($args){
+            print_r($args);
+        }
+
 	
 }
