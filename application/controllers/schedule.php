@@ -4,6 +4,7 @@ class Schedule extends CI_Controller {
 
 	public function __construct(){
 		parent::__construct();
+                // load necessary models and libraries
 		$this->load->library('session');
                 $this->load->model('schedule_model');
                 $this->load->model('utilities_model');
@@ -126,7 +127,12 @@ class Schedule extends CI_Controller {
         public function add_contact(){
             $this->load->model('contacts_model');
             $_POST['user'] = $this->session->userdata('id'); // add current user's id
-            $this->contacts_model->add($this->input->post());
+            
+            if($this->contacts_model->add($this->input->post()) !== false){
+                print json_encode(array("status"=>"ok"));
+            }else{          
+                print json_encode(array("status"=>"fail"));
+            }
         }
 	
         /**
