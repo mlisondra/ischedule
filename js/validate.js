@@ -175,21 +175,24 @@ function validate_add_contact(){
 		$("#form_notification").show();
 		return false;
 	}else{
-		var post = $('#add_contact_form').serialize();
+		var post = $('#add_contact_form').serialize(); //url:'../schedule/add_calendar',
 		var post_result = "";
-		$.ajax({url:'process.php',data:post,type:"POST",async:false,
+		$.ajax({
+			url:'../schedule/add_contact',
+			data:post,
+			type:"POST",
+			async:false,
 			success:function(data){
-				post_result = data;
-			}
+				if(data.status == 1){
+					get_contacts(); // refressh list
+                                        $('#modal_container').dialog('close');
+				}else{
+                                        $('#form_notification').html(data.message);
+                                        $('#form_notification').show();
+				}				
+			},
+                        dataType: "json"
 		});
-		if(post_result == 1){
-			//return true;
-			$("#add_contact_form").remove();
-			$("#modal_container").html("Contact Added");
-			reset_modal_buttons(); //reset buttons
-		}else{
-			return false;
-		}
 	}
 }
 
