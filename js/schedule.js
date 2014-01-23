@@ -350,6 +350,9 @@ $(document).ready(function(){
                 case "edit_category_form":
                     validate_edit_category();
                     break;
+                case "add_contact_form":
+                    validate_add_contact();
+                    break;
                 
             }
            
