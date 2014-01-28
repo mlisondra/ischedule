@@ -24,7 +24,7 @@
 		<div id="nav">
 			<a href="../about/" title="Well since you really want to know">About Us</a>
 			<a href="../faqs/">FAQs</a>
-			<a href="###" title="View account settings" Account Settings</a>
+                        <a href="###" title="View account settings">Account Settings</a>
 			<a href="../logout/" id="logout" title="Logout">Logout</a>		
 		</div>
 	</div> <!--End Header-->
