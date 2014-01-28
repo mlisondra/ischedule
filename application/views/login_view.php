@@ -15,7 +15,15 @@
 </head>
 <body>
 	<div id="container"> <!--Start Container-->
-	<?php //include('../includes/header.php'); ?>
+	<div id="header"> <!--Start Header-->
+		<a href="../schedule/"><h1>iSchedule247</h1></a>
+		<div id="nav">
+			<a href="../about/" title="Well since you really want to know">About Us</a>
+			<a href="../faqs/">FAQs</a>
+                        <a href="###" title="View account settings">Account Settings</a>
+			<a href="../logout/" id="logout" title="Logout">Logout</a>		
+		</div>
+	</div> <!--End Header-->
 		<!--End Header-->
 		<div id="login_content"> <!--Start Content-->
 			<div id="login_left">
