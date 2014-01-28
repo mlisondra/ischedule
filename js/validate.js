@@ -175,7 +175,7 @@ function validate_add_contact(){
 		$("#form_notification").show();
 		return false;
 	}else{
-		var post = $('#add_contact_form').serialize(); //url:'../schedule/add_calendar',
+		var post = $('#add_contact_form').serialize();
 		var post_result = "";
 		$.ajax({
 			url:'../schedule/add_contact',
@@ -183,8 +183,8 @@ function validate_add_contact(){
 			type:"POST",
 			async:false,
 			success:function(data){
-				if(data.status == 1){
-					get_contacts(); // refressh list
+				if(data.status == "success"){
+					get_contacts(); // refresh list
                                         $('#modal_container').dialog('close');
 				}else{
                                         $('#form_notification').html(data.message);
@@ -206,7 +206,7 @@ function validate_edit_contact(){
 	var email = $("#edit_contact_form #email").val();
 	var phone = $("#edit_contact_form #phone").val();
 	var phone_carrier = $("#edit_contact_form #phone_carrier").val();
-	var reminder_type = $("#add_contact_form #reminder_type").val();
+	var reminder_type = $("#edit_contact_form #reminder_type").val();
 	var num_errors = 0;
 	var error_message = "";
 	
@@ -218,21 +218,21 @@ function validate_edit_contact(){
 		num_errors++;
 	}
 	if(last_name == ''){
-		error_message = error_message + "Last Name is required<br/>";
-		num_errors++;
+            error_message = error_message + "Last Name is required<br/>";
+            num_errors++;
 	}
 	
 	if(email == ''){
-		error_message = error_message + "Email address is required<br/>";
-		num_errors++;
+            error_message = error_message + "Email address is required<br/>";
+            num_errors++;
 	}else if(email_domain_name == "googlegroups.com" || email_domain_name == "googlegroup.com" || email_domain_name == "yahoogroups.com" || email_domain_name == "yahoogroup.com"){
-		error_message = error_message + "Google or Yahoo Groups emails are not allowed<br/>";
-		num_errors++;						
+            error_message = error_message + "Google or Yahoo Groups emails are not allowed<br/>";
+            num_errors++;						
 	}else{
-		if(!IsEmail(email)){
-			error_message = error_message + "Invalid Email Address format<br/>";
-			num_errors++;		
-		}
+            if(!IsEmail(email)){
+                error_message = error_message + "Invalid Email Address format<br/>";
+                num_errors++;		
+            }
 	}
 
 	if(phone == ''){
@@ -257,18 +257,22 @@ function validate_edit_contact(){
 	}else{
 		var post = $('#edit_contact_form').serialize();
 		var post_result = "";
-		$.ajax({url:'process.php',data:post,type:"POST",async:false,
+		$.ajax({
+			url:'../schedule/update',
+			data:post,
+			type:"POST",
+			async:false,
 			success:function(data){
-				post_result = data;
-			}
+                            if(data.status == 1){
+                                    get_contacts(); // refresh list
+                                    $('#modal_container').dialog('close');
+                            }else{
+                                    $('#form_notification').html(data.message);
+                                    $('#form_notification').show();
+                            }				
+			},
+                        dataType: "json"
 		});
-		if(post_result == 1){
-			$("#edit_contact_form").remove();
-			$("#modal_container").html("Contact Updated.");
-			reset_modal_buttons(); //reset buttons
-		}else{
-			return false;
-		}
 	}
 }
 

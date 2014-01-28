@@ -4,20 +4,23 @@ function goto_specific_month(month){
 	$('#mycalendar').fullCalendar( 'gotoDate', current_calendar_year, month);
  }
 		 
-function get_contacts(){
+function get_contacts(){ console.log('get contacts');
     var html = '';
+    $('ul#contacts_list').html(html);
     $.post('../schedule/get_contacts',
-            function(data){
-                $.each(data.contacts, function(i, item) {
-                        html = '<div class="color_list"></div>';
-                        //html += '<li>' + item.first_name + ' ' +  item.last_name + '</li>';
-                        html += '<li><a href="###" rel="' + item.id + '" title="Edit Contact">' + item.first_name + ' ' + item.last_name + '</a></li>';
-                        $('ul#contacts_list').append(html);
-                });
-            },"json");
+        function(data){
+            if(data.num_contacts > 0){
+                
+            }
+            $('ul#contacts_list li').remove();
+            $.each(data.contacts, function(i, item) {
+                html = '<div class="color_list"></div>';
+                html = html + '<li><a href="###" rel="' + item.id + '" title="Edit Contact">' + item.first_name + ' ' + item.last_name + '</a></li>';
+                $('ul#contacts_list').append(html);
+            });
+        },"json");
 }
 
-//function show_modal(modal_type,obj_id){ console.log(modal_type);
 function show_modal(elem){
 	var obj_id = typeof(obj_id) != 'undefined' ? obj_id : 0;
 	
@@ -38,6 +41,7 @@ function show_modal(elem){
                 modal_height = 490;
             }else if(elem.getAttribute("title") == "Edit Contact"){
                 modal_type = "edit_contact";
+                modal_height = 450;
             }
             obj_id = elem.getAttribute("rel");
         }
@@ -189,11 +193,11 @@ $("#logout").click(function(){
 });
 
 function expand_events(elem){
-	if(document.getElementById(elem).style.display == "none"){
-		$("#"+elem).show();
-	}else{
-		$("#"+elem).hide();
-	}	
+    if(document.getElementById(elem).style.display == "none"){
+        $("#"+elem).show();
+    }else{
+        $("#"+elem).hide();
+    }	
 }
 
 function remove_manager(manager,calendar){
@@ -201,22 +205,22 @@ function remove_manager(manager,calendar){
 	var calendar_id = calendar;
 	var post = "action=remove_manager&manager_id=" + manager_id + "&calendar_id=" + calendar_id;
 	$.post("../schedule/process.php",post,
-		function(data){
-			$.post("../schedule/process.php",{action:"get_calendar_managers","calendar_id":calendar_id},
-				function(data){
-					$("#calendar_managers").html(data);
-				}
-			);
-		}
+            function(data){
+                $.post("../schedule/process.php",{action:"get_calendar_managers","calendar_id":calendar_id},
+                    function(data){
+                            $("#calendar_managers").html(data);
+                    }
+                );
+            }
 	);
 }
 
 $("#reminder_notification_all").live("click",(function(){
-	var checked_status = this.checked;
-	$("#add_event_form input:checkbox").each(function()
-	{
-		this.checked = checked_status;
-	});
+    var checked_status = this.checked;
+    $("#add_event_form input:checkbox").each(function(){
+        this.checked = checked_status;
+    });
+    
 }));
 
 /**
@@ -250,16 +254,15 @@ function update_category_list_modal(){
 $(document).ready(function(){
 
 	// Binding for calendar name/links; for editing
-	$("#category_list li a, #contacts_list li a").live("click",function(){
-		var calendar_id = $(this).attr("rel");
-		show_modal(this);
-		
+	$("#category_list li a, #contacts_list li a").live("click",function(){ console.log(this);
+            var calendar_id = $(this).attr("rel");
+            show_modal(this);		
 	});
 	
 	// Binding for the months header
 	$("#calendar_months ul li a").click(function(){
-		var month_num = $(this).attr("rel");
-		goto_specific_month(month_num);
+            var month_num = $(this).attr("rel");
+            goto_specific_month(month_num);
 	});
 	
 	// Binding for the action buttons within Schedule view
@@ -317,8 +320,13 @@ $(document).ready(function(){
 		$.post('../schedule/delete_obj',post_data,
                     function(data){
                         if(data.status == 1){
-                            get_categories();
-                            refresh_calendar();
+                            if(obj_type == "calendar"){
+                                get_categories();
+                                refresh_calendar();
+                            }else if(obj_type == 'contact'){
+                                get_contacts();
+                            }
+                            
                             $('#modal_container').dialog('close');
                         }
                     },"json"
@@ -327,12 +335,12 @@ $(document).ready(function(){
 	});
 	
 	
-	// Delete button cancel
+	// Delete button cancel for the forms inside modals
 	$(".delete_button_cancel").live("click",function(){
-		$(this).parent().hide();
+            $(this).parent().hide();
 	});
         
-        // Save button cancel for Add Calendar
+        // Save button cancel for the forms inside modals
  	$(".save_button_cancel").live("click",function(){
             $('#modal_container').dialog('close');
 	}); 
@@ -353,6 +361,9 @@ $(document).ready(function(){
                 case "add_contact_form":
                     validate_add_contact();
                     break;
+                case "edit_contact_form":
+                    validate_edit_contact();
+                    break;                    
                 
             }
            

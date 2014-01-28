@@ -49,24 +49,24 @@
 			<div id="calendar_months" style="background-color:#FFFFFF;width:650px;">
 				<div id="calendar_top"></div>
 					<table border="0">
-						<tr>
-							<td>
-								<ul>
-									<li><a href="###" rel="0">Jan</a></li>
-									<li><a href="###" rel="1">Feb</a></li>
-									<li><a href="###" rel="2">Mar</a></li>
-									<li><a href="###" rel="3">Apr</a></li>
-									<li><a href="###" rel="4">May</a></li>
-									<li><a href="###" rel="5">Jun</a></li>
-									<li><a href="###" rel="6">Jul</a></li>
-									<li><a href="###" rel="7">Aug</a></li>
-									<li><a href="###" rel="8">Sep</a></li>
-									<li><a href="###" rel="9">Oct</a></li>
-									<li><a href="###" rel="10">Nov</a></li>
-									<li><a href="###" rel="11">Dec</a></li>
-								</ul>
-							</td>
-						</tr>
+                                            <tr>
+                                                <td>
+                                                    <ul>
+                                                            <li><a href="###" rel="0">Jan</a></li>
+                                                            <li><a href="###" rel="1">Feb</a></li>
+                                                            <li><a href="###" rel="2">Mar</a></li>
+                                                            <li><a href="###" rel="3">Apr</a></li>
+                                                            <li><a href="###" rel="4">May</a></li>
+                                                            <li><a href="###" rel="5">Jun</a></li>
+                                                            <li><a href="###" rel="6">Jul</a></li>
+                                                            <li><a href="###" rel="7">Aug</a></li>
+                                                            <li><a href="###" rel="8">Sep</a></li>
+                                                            <li><a href="###" rel="9">Oct</a></li>
+                                                            <li><a href="###" rel="10">Nov</a></li>
+                                                            <li><a href="###" rel="11">Dec</a></li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
 					</table>				
 				</div>
 				<div style="clear:both;height:10px;background-color:#FFFFFF;width:650px;"></div>
@@ -78,13 +78,13 @@
 					<div class="mod_top"></div>
 						<h3>Contacts</h3>
 						<div id="contacts">
-							<form id="contact_list_form" name="contact_list_form">
-							<ul id="contacts_list"></ul>
-							</form>
+                                                    <form id="contact_list_form" name="contact_list_form">
+                                                        <ul id="contacts_list"></ul>
+                                                    </form>
 						</div>
-					<a href="###" class="button" id="add_contact" title="Add Contact">Add Contact</a>
-					<a href="###" class="button" id="bulk_add" title="Add Multiple Contacts">Add Multiple Contacts</a>
-					<a href="###" class="deselect_all" id="manage_contacts" id="manage_contacts" title="Manage Contacts" style="color:#fff;">Manage Contacts</a>					
+					<!--<a href="###" class="button" id="add_contact" title="Add Contact">Add Contact</a>
+					<a href="###" class="button" id="bulk_add" title="Add Multiple Contacts">Add Multiple Contacts</a>-->
+					<a href="###" class="deselect_all" id="add_contact" id="add_contact" title="Add Contact" style="color:#fff;">Add Contact</a>					
 				<div class="clear"></div>
 				</div>		
 			</div> <!--End Right Col-->
@@ -100,7 +100,7 @@
 		<input type="hidden" name="obj_id" id="obj_id" value="">
 	</div>
         
-<script type="text/javascript" src="../js/jquery-142.js"></script>
+<script type="text/javascript" src="../js/jquery_142.js"></script>
 <script type="text/javascript" src="../js/jquery-ui-1.8.10.custom.min.js"></script>
 <script type="text/javascript" src="../js/validate.js"></script>
 <script type="text/javascript" src="../js/schedule.js"></script>

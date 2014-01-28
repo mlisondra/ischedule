@@ -23,7 +23,7 @@
 	</tr>
         <tr>
             <td>
-                <div style="margin-top:25px;">
+                <div style="margin-top:5px;">
                 <input type="submit" value="Save">
                 <input type="button" value="Cancel" class="save_button_cancel">
                 </div>

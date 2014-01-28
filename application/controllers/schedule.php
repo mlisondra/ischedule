@@ -115,7 +115,7 @@ class Schedule extends CI_Controller {
                 print json_encode(array("status"=>"fail"));
             }
 	}
-	
+	/* Commented out; not likely needed
 	public function delete_event(){
 	
 	}
@@ -123,13 +123,13 @@ class Schedule extends CI_Controller {
 	public function edit_event(){
 	
 	}
-        
+        */
         public function add_contact(){
             $this->load->model('contacts_model');
             $_POST['user'] = $this->session->userdata('id'); // add current user's id
             
             if($this->contacts_model->add($this->input->post()) !== false){
-                print json_encode(array("status"=>"ok"));
+                print json_encode(array("status"=>"success"));
             }else{          
                 print json_encode(array("status"=>"fail"));
             }
@@ -238,6 +238,30 @@ class Schedule extends CI_Controller {
                         $form_content = $this->load->view($view,$data,true);
                         break;
                     case "edit_contact":
+                        $this->load->model('contacts_model');
+                        $contact = $this->contacts_model->get_contact($this->input->post('obj_id'));
+                        $contact_calendars = $this->contacts_model->contact_categories($this->input->post('obj_id'));
+                        
+                        $data = $contact;
+                        $data->phone_carriers = $this->utilities_model->get_phone_carriers();
+                        $calendars = $this->schedule_model->get_calendars($this->session->userdata('id'));
+                        foreach($contact_calendars as $calendar){
+                            $contact_calendar_ids[] = $calendar->category;
+                        }
+                        
+                        if($calendars != 0){
+                            foreach($calendars as $calendar){
+                                if(in_array($calendar->id,$contact_calendar_ids)){
+                                     $user_calendars .= '<input name="category[]" type="checkbox" id="'.$calendar->name.'" value="'.$calendar->id.'" checked><label for="'.$calendar->name.'">'.$calendar->name.'</label><br>';
+                                }else{
+                                     $user_calendars .= '<input name="category[]" type="checkbox" id="'.$calendar->name.'" value="'.$calendar->id.'"><label for="'.$calendar->name.'">'.$calendar->name.'</label><br>';
+                                }
+                            }
+                        } 
+                        $data->calendars = $user_calendars;
+                        $data->contact_calendars = $contact_calendars;
+                        
+                        $form_content = $this->load->view($view,$data,true);                        
                         break;
 		}      
                 
@@ -250,12 +274,28 @@ class Schedule extends CI_Controller {
 	*/
 	public function delete_obj(){
                 $status = 0;
-                if($this->input->post('obj_type') == "calendar"){
-                    // Delete related events
-                    if($this->schedule_model->delete_calendar($this->input->post('obj_id')) == 1){
-                        $status = 1;
-                    }                    
+                $obj_type = $this->input->post('obj_type');
+                //if($this->input->post('obj_type') == "calendar"){
+                switch($obj_type){
+                    case "calendar":
+                        if($this->schedule_model->delete_calendar($this->input->post('obj_id')) == 1){
+                            $status = 1;
+                        }
+                        break;
+                    case "contact":
+                        $this->load->model('contacts_model');
+                        if($this->contacts_model->delete($this->input->post('obj_id')) == 1){
+                            $status = 1;
+                        }
+                        break;
                 }
+                    // Delete related events
+                    //if($this->schedule_model->delete_calendar($this->input->post('obj_id')) == 1){
+                        //$status = 1;
+                    //}                    
+                //}else{
+                    
+                //}
                 
                 print json_encode(array("status"=>$status));
 	}
@@ -282,6 +322,9 @@ class Schedule extends CI_Controller {
                 case "event":
                     break;
                 case "contact":
+                    $this->load->model('contacts_model');
+                    $this->contacts_model->update($this->input->post());
+                    $status = 1;
                     break;
                 default:
                     $status = 0;
