@@ -4,7 +4,7 @@ function goto_specific_month(month){
 	$('#mycalendar').fullCalendar( 'gotoDate', current_calendar_year, month);
  }
 		 
-function get_contacts(){ console.log('get contacts');
+function get_contacts(){
     var html = '';
     $('ul#contacts_list').html(html);
     $.post('../schedule/get_contacts',
@@ -180,7 +180,6 @@ function show_static_modal(modal_type){
 
 // Get user events
 function refresh_calendar(){
-    console.log("Refreshing calendars");
     $('#mycalendar').fullCalendar('refetchEvents');
 }
 
@@ -254,7 +253,7 @@ function update_category_list_modal(){
 $(document).ready(function(){
 
 	// Binding for calendar name/links; for editing
-	$("#category_list li a, #contacts_list li a").live("click",function(){ console.log(this);
+	$("#category_list li a, #contacts_list li a").live("click",function(){
             var calendar_id = $(this).attr("rel");
             show_modal(this);		
 	});
@@ -370,7 +369,7 @@ $(document).ready(function(){
         });
         
         $('.calendar_manager').live('keyup.autocomplete', 
-            function(){ console.log(this);
+            function(){
                 $(this).autocomplete({ 
                     source: "../schedule/user_lookup",
                     minLength : 3,
@@ -386,7 +385,6 @@ $(document).ready(function(){
             });
             
         $('#manager_names a').live("click",function(){
-            console.log(this);
             // get the manager id from rel attribute
             // get the calendar id from the form hidden input id
             // post to /schedulre/remove_calendar_manager
