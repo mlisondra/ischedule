@@ -68,20 +68,20 @@ function validate_signup(){
 }
 
 function hide_errors(){
-	$('#email_error').hide();
-	document.getElementById('password_error').style.display = "none";
-	document.getElementById('password2_error').style.display = "none";
-	document.getElementById('passwords_match_error').style.display = "none";
+    $('#email_error').hide();
+    document.getElementById('password_error').style.display = "none";
+    document.getElementById('password2_error').style.display = "none";
+    document.getElementById('passwords_match_error').style.display = "none";
 }
 
 function show_reset_password(){
-	$("#notification").html("");
-	$("#login_form").remove();
-	$("#reset_password_form").show();	
+    $("#notification").html("");
+    $("#login_form").remove();
+    $("#reset_password_form").show();	
 }
 
 function cancel_reset_password(){
-	window.location.href = "../login/index.php";
+    window.location.href = "../login/index.php";
 }
 
 //Email Validator
@@ -465,7 +465,7 @@ function validate_add_event(){
 	}
 
 	if(!num_category_chosen){
-		error_message = error_message + "Assign Event to at least one Category<br/>";
+		error_message = error_message + "Assign Event to at least one Calendar<br/>";
 		num_errors++;
 	}
 	
