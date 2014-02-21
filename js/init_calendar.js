@@ -71,7 +71,7 @@ $(document).ready(function() {
 				current_year = date.getFullYear();
 				today_date = current_month + "/" + current_day + "/" + current_year;
                                 begin_date = $.fullCalendar.formatDate(date, 'MM/dd/yyyy'); // Format date
-                                console.log(begin_date);
+                                //console.log(begin_date);
                                $.post('../schedule/get_modal_form',{
                                    "modal_type":"add_event",
                                    "begin_date":begin_date,
@@ -84,13 +84,38 @@ $(document).ready(function() {
                                                var current_year = cdt.getFullYear();
                                                var today_date = current_month + "/" + current_day + "/" + current_year;
 
+                                               $("#modal_container").html(data);
+                                                
+                                                var dates = $( "#begin_date, #end_date" ).datepicker({	
+							minDate : today_date,
+							numberOfMonths:1,
+							onSelect: function( selectedDate ) {
+								var option = this.id == "begin_date" ? "minDate" : "maxDate",
+									instance = $( this ).data( "datepicker" ),
+									date = $.datepicker.parseDate(
+										instance.settings.dateFormat ||
+										$.datepicker._defaults.dateFormat,
+										selectedDate, instance.settings );
+								dates.not( this ).datepicker( "option", option, date );
+								$("#end_date").val(selectedDate);
+							}						
+						});
+                                                $('#begin_time').timepicker({
+                                                    showLeadingZero : false,
+                                                    showPeriod : true,
+                                                    amPmText: ['AM', 'PM'],
+                                                    onSelect : function(time,inst){
+                                                                    $('#end_time').val(time);
+                                                            }
+                                                });
+                                                
                                                 $('#end_time').timepicker({
                                                     showLeadingZero : false,
                                                     showPeriod : true,
                                                     amPmText: ['AM', 'PM']
                                                 });
                                             
-                                                $("#modal_container").html(data);
+                                                
                                });
                                
                                 }, // End dayClick
