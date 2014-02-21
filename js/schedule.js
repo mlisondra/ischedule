@@ -41,7 +41,7 @@ function show_modal(elem){
                 modal_height = 490;
             }else if(elem.getAttribute("title") == "Edit Contact"){
                 modal_type = "edit_contact";
-                modal_height = 450;
+                modal_height = 500;
             }
             obj_id = elem.getAttribute("rel");
         }
@@ -280,7 +280,8 @@ $(document).ready(function(){
 		minWidth: 300,
 		title : "Please confirm"
 	}); 
-	
+        
+	/* Commented out 02/21/2014; legacy code
 	$('.alert_modal .btn').click(function(){
 		if($(this).attr('id') == 'yes'){
 			$.post('../schedule/process.php',{"action":"delete_associated_events","category_id":obj_id},
@@ -299,7 +300,8 @@ $(document).ready(function(){
 			close_alert_modal();
 		}
 	});
-	
+	*/
+       
 	// Delete button
 	$(".delete_button").live("click",function(){
 		$(this).next().show();
