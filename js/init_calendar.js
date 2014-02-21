@@ -10,36 +10,89 @@ $(document).ready(function() {
     var y = date.getFullYear();
                 
 			$('#mycalendar').fullCalendar({
-			  eventClick: function(calEvent, jsEvent, view) { //clicking on event within calendar brings up Edit Event dialog box
-                                show_modal('edit_event',calEvent.id);
+			  eventClick: function(calEvent, jsEvent, view) { // Binding for each event in calendar; Edit Event mode
+                                //console.log(new Date(calEvent.begin_date_time));
+                                $(this).children().attr("rel",calEvent.id);
+                                $(this).children().attr("id","add_event");
+                                post_data = "modal_type=edit_event&obj_id=" + calEvent.id;
+                                $.post('../schedule/get_modal_form',post_data,
+                                    function(data){
+                                        
+                                    $('#modal_container').dialog({
+                                            autoOpen: true,
+                                            resizable: false,
+                                            width: 500,
+                                            height: 400,
+                                            draggable: false,
+                                            modal: true,
+                                            title: 'Edit Event',
+                                            //open: function(event, ui) { $('#modal_container').html(""); },
+                                            dialogClass: 'no-close' // Ensures that the Close button is disabled for all modal instances
+                                    });
+                                
+                                        $("#modal_container").html(data);
+                                        
+                                        $( "#begin_date, #end_date" ).datepicker({
+                                            //minDate : '02/07/2014'
+                                        });
+                                        
+                                        $('#begin_time').timepicker({
+						showLeadingZero : false,
+						showPeriod : true,
+						amPmText: ['AM', 'PM'],
+						onSelect : function(time,inst){
+                                                    $('#end_time').val(time);
+                                                }
+                                        });
+                                                
+                                        $("#modal_container").dialog('open');
+                                    });                                
 				},
                             dayClick: function(date, allDay, jsEvent, view){ //clicking within a calendar day brings up the Add Event
-                               show_modal('add_event');
+                        
+                              	$('#modal_container').dialog({
+                                        autoOpen: true,
+                                        resizable: false,
+                                        width: 500,
+                                        height: 400,
+                                        draggable: false,
+                                        modal: true,
+                                        title: 'Add Event',
+                                        open: function(event, ui) { $('#modal_container').html(""); },
+                                        dialogClass: 'no-close' // Ensures that the Close button is disabled for all modal instances
+                                });
                                
-                               var begin_date = $.fullCalendar.formatDate(date, 'MM/dd/yyyy'); // Format date
-                               
-                               $.post('../schedule/process.php',{
-                                   "action":"get_modal_content",
+                                cdt = new Date();
+                                var current_month = date.getMonth() + 1;
+				if(current_month < 10){
+					current_month = "0" + current_month;
+				}
+				current_day = date.getDate();
+				current_year = date.getFullYear();
+				today_date = current_month + "/" + current_day + "/" + current_year;
+                                begin_date = $.fullCalendar.formatDate(date, 'MM/dd/yyyy'); // Format date
+                                console.log(begin_date);
+                               $.post('../schedule/get_modal_form',{
                                    "modal_type":"add_event",
                                    "begin_date":begin_date,
-                                   "end_date":begin_date},
+                                   "end_date":begin_date, 
+                                   "obj_id":0},
                                        function(data){
                                                var cdt = new Date();
                                                var current_month = cdt.getMonth() + 1;
                                                var current_day = cdt.getDate();
                                                var current_year = cdt.getFullYear();
                                                var today_date = current_month + "/" + current_day + "/" + current_year;
-                                               $("#begin_date").val(begin_date);
-                                               $("#end_date").val(begin_date);
 
                                                 $('#end_time').timepicker({
                                                     showLeadingZero : false,
                                                     showPeriod : true,
                                                     amPmText: ['AM', 'PM']
                                                 });
-
-                                               $("#modal_container").dialog('open');
+                                            
+                                                $("#modal_container").html(data);
                                });
+                               
                                 }, // End dayClick
 				header: {
 					left: 'month,basicWeek,basicDay',
@@ -53,7 +106,7 @@ $(document).ready(function() {
                                             "border-color":event.color,
                                             "border-style":"solid",
                                             "color":"#000",
-                                            "font-weight":"#bold"
+                                            "font-weight":"bold"
                                         });
 				}
 			});

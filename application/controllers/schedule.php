@@ -115,6 +115,8 @@ class Schedule extends CI_Controller {
                 print json_encode(array("status"=>"fail"));
             }
 	}
+ 
+        
 	/* Commented out; not likely needed
 	public function delete_event(){
 	
@@ -203,6 +205,7 @@ class Schedule extends CI_Controller {
                         $form_content = $this->load->view($view,$data,true);
                         break;
                     case "add_event":
+                        $begin_date = $this->input->post('begin_date');
                         // Get user's calendars
                         $calendars = $this->schedule_model->get_calendars($this->session->userdata('id'));
                         if($calendars != 0){
@@ -220,10 +223,23 @@ class Schedule extends CI_Controller {
                                 }
                         }       
                         $reminder_notification_list .= '<input type="checkbox" name="reminder_notification_all" id="reminder_notification_all"><label for="reminder_notification_all">All</label><br/>';
-                        $data = array("id"=>$obj_id,"reminder_notification_list"=>$reminder_notification_list,"calendars"=>$user_calendars);
+                        $data = array("id"=>$obj_id,"reminder_notification_list"=>$reminder_notification_list,"calendars"=>$user_calendars,"begin_date"=>$begin_date,"end_date"=>$begin_date);
+                        
                         $form_content = $this->load->view($view,$data,true);
                         break;
                     case "edit_event":
+                        $this->load->model('events_model');
+                        $event = $this->events_model->get($this->input->post('obj_id'));
+                        
+                        $begin_date = date("m",$event->begin_date_time) . "/" . date("d",$event->begin_date_time) . "/" . date("Y",$event->begin_date_time);
+                        //print_r($begin_date);
+                        $event->begin_date = $begin_date;
+                        $event->begin_time = date("h:i A",$event->begin_date_time);
+                        $event->end_date = $begin_date;
+                        
+                       print_r($event);
+                        $form_content = $this->load->view($view,$event,true);
+                        
                         break;
                     case "add_contact":
                         $data['phone_carriers'] = $this->utilities_model->get_phone_carriers();
@@ -333,10 +349,10 @@ class Schedule extends CI_Controller {
             log_message('debug',print_r($this->input->post(),true));
             print json_encode(array("status"=>$status));
         }
-        
+        /*
         public function remove_calendar_manager(){
             
-        }
+        }*/
         
         /**
          * Search contacts using given search term

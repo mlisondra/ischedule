@@ -41,8 +41,8 @@
 				</form>					
 				<a href="###" class="button" id="add_category" title="Add Calendar">Add Calendar</a>
 				<!--<a href="###" class="button" id="manage_categories" title="Manage Calendars">Manage Calendars</a>-->
-				<a href="###" class="button" id="add_event" title="Add Event">Add Event</a>
-				<a href="###" class="deselect_all" id="manage_events" title="Manage Events" style="color:#fff;">Manage Events</a>
+				<!--<a href="###" class="button" id="add_event" title="Add Event">Add Event</a>-->
+				<a href="###" class="deselect_all" id="add_event" title="Add Event" style="color:#fff;">Add Event</a>
 			</div>
 			</div> <!--End Left Col-->
 			<div id="center_col"> <!--Start Center Col-->
@@ -76,15 +76,15 @@
 			<div id="right_col"> <!--Start Right Col-->
 				<div class="mod">
 					<div class="mod_top"></div>
-						<h3>Contacts</h3>
-						<div id="contacts">
+                                        <h3>Contacts <a href="###" style="font-size:8pt;padding-left:50px;" id="add_contact" title="Add Contact">add</a</h3>
+                                                <div id="contacts">
                                                     <form id="contact_list_form" name="contact_list_form">
                                                         <ul id="contacts_list"></ul>
                                                     </form>
 						</div>
 					<!--<a href="###" class="button" id="add_contact" title="Add Contact">Add Contact</a>
 					<a href="###" class="button" id="bulk_add" title="Add Multiple Contacts">Add Multiple Contacts</a>-->
-					<a href="###" class="deselect_all" id="add_contact" id="add_contact" title="Add Contact" style="color:#fff;">Add Contact</a>					
+					<!--<a href="###" class="deselect_all" id="add_contact" title="Add Contact" style="color:#fff;">Add Contact</a>-->					
 				<div class="clear"></div>
 				</div>		
 			</div> <!--End Right Col-->

@@ -265,7 +265,7 @@ $(document).ready(function(){
 	});
 	
 	// Binding for the action buttons within Schedule view
-	$(".button, .deselect_all").click(function(){
+	$(".button, .deselect_all, #add_contact").click(function(){
                 show_modal(this);
 	});
 	

@@ -5,11 +5,11 @@
 <td valign="top">
 	<span class="form_field_header">Title</span><br><input type="text" name="title" id="title" value="" size="30">
 	<span class="form_field_header">Start Date &amp; Time</span><br>
-	<input type="text" name="begin_date" id="begin_date" size="10" value="##begin_date##">&nbsp;
+	<input type="text" name="begin_date" id="begin_date" size="10" value="<?php print $begin_date; ?>">&nbsp;
 	<input type="text" name="begin_time" id="begin_time" value="08:00 AM" size="10" class="timepicker">
 	<br><br>
 	<span class="form_field_header">End Date & Time</span><br>
-	<input type="text" name="end_date" id="end_date" size="10" value="##end_date##">&nbsp;
+	<input type="text" name="end_date" id="end_date" size="10" value="<?php print $end_date; ?>">&nbsp;
 	<input type="text" name="end_time" id="end_time" value="04:00 PM" size="10" class="timepicker">
 	<br/><br/>
 	<span class="form_field_header">Assign to Calendar</span><br/><?php print $calendars; ?>

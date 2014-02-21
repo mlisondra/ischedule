@@ -5,7 +5,7 @@
 	<span class="form_field_header">Title</span><br><input type="text" name="title" id="title" value="<?php print $title; ?>" size="30"><br>
 	<span class="form_field_header">Start Date &amp; Time</span><br>
 	<input type="text" name="begin_date" id="begin_date" value="<?php print $begin_date; ?>" size="10">&nbsp;
-        <input type="text" name="begin_time" id="begin_time" value="<?php print $end_time; ?>" size="10">
+        <input type="text" name="begin_time" id="begin_time" value="<?php print $begin__time; ?>" size="10">
 	<br><br>
 	<span class="form_field_header">End Date & Time</span><br>
 	<input type="text" name="end_date" id="end_date" value="<?php print $end_date; ?>" size="10">&nbsp;

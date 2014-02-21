@@ -333,6 +333,7 @@ class Schedule_model extends CI_Model {
                 // TODO: reminder notifications need to be added database
                 
                 $this->db->insert($this->events, $insert_values);
+                log_message('info',$this->db->last_query());
                 if($this->db->affected_rows() == 1){
                     return $this->db->insert_id();
                 }else{
