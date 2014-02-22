@@ -15,7 +15,7 @@ class Contacts_model extends CI_Model {
 		$this->db->where('user',$user_id);
 		$query = $this->db->get($this->contacts);
 		if($query->num_rows() > 0){
-			return $query->result();
+                    return $query->result();
 		}else{
 			return 0;
 		}
@@ -122,5 +122,7 @@ class Contacts_model extends CI_Model {
             log_message('debug',$this->db->last_query());            
         }
 
-	
+        // Reminders because I'm very forgetful
+        // call method in another Model
+	//Schedule_model::test_test();
 }
