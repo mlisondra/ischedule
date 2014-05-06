@@ -311,7 +311,7 @@ $(document).ready(function(){
 	$(".delete_button_confirm").live("click",function(){
 		var obj_type = $(this).attr("rel");
 		var form_id = $(this).closest('form').attr("id");
-		var obj_id = $('#' + form_id + ' #id').val();
+		var obj_id = $('#' + form_id + ' #id').val(); console.log(obj_id);
 		// ajax post to delete given object
 		var post_data = {
 			"obj_type":obj_type,
@@ -326,6 +326,8 @@ $(document).ready(function(){
                                 refresh_calendar();
                             }else if(obj_type == 'contact'){
                                 get_contacts();
+                            }else if(obj_type == "event"){
+                                refresh_calendar();
                             }
                             
                             $('#modal_container').dialog('close');

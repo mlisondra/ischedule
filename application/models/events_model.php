@@ -26,8 +26,16 @@ class Events_model extends CI_Model {
 			return $query->row();
 		}else{
 			return 0;
-		}            
-            //print($this->db->last_query());
+		}
+        }
+        
+        public function delete($id){
+            $this->db->delete($this->events, array("id"=>$id));
+            if($this->db->affected_rows() == 1){
+                return true;
+            }else{
+                return false;
+            }            
         }
         
 }

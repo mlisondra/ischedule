@@ -101,11 +101,12 @@ $(document).ready(function() {
 							}						
 						});
                                                 $('#begin_time').timepicker({
-                                                    showLeadingZero : false,
+                                                    showLeadingZero : true,
                                                     showPeriod : true,
                                                     amPmText: ['AM', 'PM'],
                                                     onSelect : function(time,inst){
                                                                     $('#end_time').val(time);
+                                                                    console.log(time);
                                                             }
                                                 });
                                                 

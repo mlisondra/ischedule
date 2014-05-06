@@ -20,9 +20,28 @@
 	<span class="form_field_header">Description</span><br/>
 	<textarea name="description" id="description" rows="5" cols="30"><?php print $description; ?></textarea>
 	<input type="hidden" name="action" value="edit_event">
-	<input type="hidden" name="id" value="<?php print $id; ?>">
+	<input type="hidden" id="id" name="id" value="<?php print $id; ?>">
 </td>
 </tr>
+
+        <tr>
+            <td>
+                <div style="margin-top:5px;">
+                <input type="submit" value="Save">
+                <input type="button" value="Cancel" class="save_button_cancel">
+                </div>
+        </tr>
+        
+        <tr>
+            <td>
+                <div style="margin-top:30px;">
+                    <input type="button" class="delete_button" value="Delete Event">
+                    <div style="display:none;">Sure?<input type="button" class="delete_button_confirm" rel="event" value="Yes">
+                        <input type="button" class="delete_button_cancel" value="Cancel">
+                    </div>
+		</div>
+            </td>
+        </tr>        
 </table>
 	
 </form>

@@ -76,7 +76,7 @@
 			<div id="right_col"> <!--Start Right Col-->
 				<div class="mod">
 					<div class="mod_top"></div>
-                                        <h3>Contacts <a href="###" style="font-size:8pt;padding-left:50px;" id="add_contact" title="Add Contact">add</a</h3>
+                                        <h3>Contacts <a href="###" style="font-size:8pt;padding-left:50px;" id="add_contact" title="Add Contact">add</a></h3>
                                                 <div id="contacts">
                                                     <form id="contact_list_form" name="contact_list_form">
                                                         <ul id="contacts_list"></ul>

@@ -237,7 +237,7 @@ class Schedule extends CI_Controller {
                         $event->begin_time = date("h:i A",$event->begin_date_time);
                         $event->end_date = $begin_date;
                         
-                       print_r($event);
+                       //print_r($event);
                         $form_content = $this->load->view($view,$event,true);
                         
                         break;
@@ -301,6 +301,12 @@ class Schedule extends CI_Controller {
                     case "contact":
                         $this->load->model('contacts_model');
                         if($this->contacts_model->delete($this->input->post('obj_id')) == 1){
+                            $status = 1;
+                        }
+                        break;
+                    case "event":
+                        $this->load->model('events_model');
+                        if($this->events_model->delete($this->input->post('obj_id')) == 1){
                             $status = 1;
                         }
                         break;
